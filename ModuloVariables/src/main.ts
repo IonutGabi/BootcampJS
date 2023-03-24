@@ -48,4 +48,4 @@ console.log("%c %s", estiloCompositor, bandaA.compositor, bandaA.añoFundacion, 
 console.log("%c %s", estiloCompositor, bandaB.compositor, bandaB.añoFundacion, bandaC.activo, bandaC.generoMusical);
 console.log("%c %s", estiloCompositor, bandaC.compositor, bandaC.añoFundacion, bandaC.activo, bandaC.generoMusical);
 console.log("%c %s", estiloCompositor, bandaD.compositor, bandaD.añoFundacion, bandaD.activo, bandaD.generoMusical);
-console.log("%c %s", estiloCompositor, bandaE.compositor, bandaC.añoFundacion, bandaE.activo, bandaE.generoMusical);
+console.log("%c %s", estiloCompositor, bandaE.compositor, bandaE.añoFundacion, bandaE.activo, bandaE.generoMusical);
