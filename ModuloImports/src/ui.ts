@@ -1,5 +1,4 @@
 import { partida } from "./model";
-import { dameCarta } from "./motor";
 export const muestraPuntuacion = (): void => {
   const elementoPuntuacion = document.getElementById("mostrarpuntos");
   if (elementoPuntuacion) {
@@ -166,7 +165,3 @@ export const plantarse = () => {
     );
   }
 };
-
-export function saberPasado() {
-  dameCarta();
-}
