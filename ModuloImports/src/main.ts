@@ -1,10 +1,8 @@
 import { partida } from "./model";
 import { dameCarta } from "./motor";
-import { muestraPuntuacion, plantarse } from "./ui";
+import { plantarse } from "./ui";
 
 partida.puntuacion;
-
-document.addEventListener("DOMContentLoaded", muestraPuntuacion);
 
 const btnPedirCarta = document.getElementById("pedircarta");
 btnPedirCarta?.addEventListener("click", dameCarta);

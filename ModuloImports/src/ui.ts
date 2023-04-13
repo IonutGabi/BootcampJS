@@ -11,6 +11,8 @@ export const muestraPuntuacion = (): void => {
   }
 };
 
+document.addEventListener("DOMContentLoaded", muestraPuntuacion);
+
 export const mostrarCarta = (carta: number): void => {
   let imagen = document.getElementById("imagen");
 
