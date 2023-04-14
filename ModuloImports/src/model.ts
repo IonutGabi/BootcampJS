@@ -3,5 +3,5 @@ interface Partida {
 }
 
 export const partida: Partida = {
-  puntuacion: 0, // TODO: inicializar esto en motor cuando arranque la partida
+  puntuacion: 0,
 };
