@@ -1,8 +1,5 @@
-import { partida } from "./model";
 import { dameCarta, saberPasado } from "./motor";
 import { plantarse } from "./ui";
-
-partida.puntuacion;
 
 const btnPedirCarta = document.getElementById("pedircarta");
 btnPedirCarta?.addEventListener("click", dameCarta);
