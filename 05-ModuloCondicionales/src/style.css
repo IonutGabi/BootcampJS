@@ -96,9 +96,3 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
-
-#mostrarpuntos {
-  font-weight: bold;
-  font-style: italic;
-  margin-bottom: 10px;
-}
