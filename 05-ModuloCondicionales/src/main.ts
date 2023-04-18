@@ -124,7 +124,6 @@ const mostrarMensaje = (mensaje: string) => {
 const gameOver = () => {
   mostrarMensaje("GAME OVER! Tu puntuación ha superado los 7.5 puntos");
   resetearBotonesGameOver();
-  nuevaPartida();
 };
 
 const resetearBotonesGameOver = () => {
@@ -137,9 +136,25 @@ const resetearBotonesGameOver = () => {
   if (elementoPlantarse && elementoPlantarse instanceof HTMLButtonElement) {
     elementoPlantarse.disabled = true;
   }
+  const elementoSaberPasado = document.getElementById("saberpasado");
+
+  if (elementoSaberPasado && elementoSaberPasado instanceof HTMLButtonElement) {
+    elementoSaberPasado.disabled = true;
+  }
+
+  if (
+    elementoNuevaPartida &&
+    elementoNuevaPartida instanceof HTMLButtonElement
+  ) {
+    elementoNuevaPartida.removeAttribute("hidden");
+  }
 };
 
 const resetearBotonesCuandoGanamos = () => {
+  const elementoPedirCarta = document.getElementById("pedircarta");
+  if (elementoPedirCarta && elementoPedirCarta instanceof HTMLButtonElement) {
+    elementoPedirCarta.disabled = true;
+  }
   const elementoPlantarse = document.getElementById("plantarse");
   if (elementoPlantarse && elementoPlantarse instanceof HTMLButtonElement) {
     elementoPlantarse.disabled = true;
@@ -161,6 +176,11 @@ const reasetearBotonesAlPlantarse = () => {
   if (elementoPlantarse && elementoPlantarse instanceof HTMLButtonElement) {
     elementoPlantarse.disabled = true;
   }
+  const elementoSaberPasado = document.getElementById("saberpasado");
+
+  if (elementoSaberPasado && elementoSaberPasado instanceof HTMLButtonElement) {
+    elementoSaberPasado.disabled = false;
+  }
 
   if (
     elementoNuevaPartida &&
@@ -172,7 +192,7 @@ const reasetearBotonesAlPlantarse = () => {
 const resetearBotonesNuevaPartida = () => {
   const elementoPlantarse = document.getElementById("plantarse");
   if (elementoPlantarse && elementoPlantarse instanceof HTMLButtonElement) {
-    elementoPlantarse.disabled = true;
+    elementoPlantarse.disabled = false;
   }
   const elementoSaberPasado = document.getElementById("saberpasado");
 
@@ -182,6 +202,12 @@ const resetearBotonesNuevaPartida = () => {
   const elementoPedirCarta = document.getElementById("pedircarta");
   if (elementoPedirCarta && elementoPedirCarta instanceof HTMLButtonElement) {
     elementoPedirCarta.disabled = false;
+  }
+  if (
+    elementoNuevaPartida &&
+    elementoNuevaPartida instanceof HTMLButtonElement
+  ) {
+    elementoNuevaPartida.setAttribute("hidden", "hidden");
   }
 };
 const nuevaPartida = () => {
@@ -196,11 +222,14 @@ const nuevaPartida = () => {
 const plantarse = () => {
   if (puntuacion < 4) {
     mostrarMensaje("Has sido muy conservador");
-  } else if (puntuacion === 5) {
+  }
+  if (puntuacion === 5) {
     mostrarMensaje("Te ha entrado el canguelo, eh?😂");
-  } else if (puntuacion === 6 || puntuacion === 7) {
+  }
+  if (puntuacion === 6 || puntuacion === 7) {
     mostrarMensaje("Casi casí...😲");
-  } else if (puntuacion === 7.5) {
+  }
+  if (puntuacion === 7.5) {
     mostrarMensaje("¡Lo has clavado! ¡Enhorabuena! 🥳");
   }
   reasetearBotonesAlPlantarse();
