@@ -10,8 +10,6 @@ const muestraPuntuacion = (): void => {
     );
   }
 };
-document.addEventListener("DOMContentLoaded", muestraPuntuacion);
-
 const generarNumeroAleatorioDeCarta = (): number => {
   let numeroAleatorioDeCarta: number = Math.ceil(Math.random() * 10);
   if (numeroAleatorioDeCarta > 7) {
@@ -220,6 +218,7 @@ const nuevaPartida = () => {
 };
 
 document.addEventListener("DOMContentLoaded", nuevaPartida);
+
 const plantarse = () => {
   if (puntuacion < 4) {
     mostrarMensaje("Has sido muy conservador");
