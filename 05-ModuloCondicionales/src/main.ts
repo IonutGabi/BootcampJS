@@ -1,6 +1,16 @@
 let puntuacion: number = 0;
 
-const muestraPuntuacion = (): void => {
+const CUATRO_DE_COPAS = 4;
+const CINCO_DE_COPAS = 5;
+const SEIS_DE_COPAS = 6;
+const SIETE_DE_COPAS = 7;
+const SOTA = 10;
+const CABALLO = 11;
+const REY = 12;
+const MEDIO_PUNTO = 0.5;
+const PUNTOS_PARA_GANAR = 7.5;
+
+const muestraPuntuacion = (puntuacion: number): void => {
   const elementoPuntuacion = document.getElementById("mensaje");
   if (elementoPuntuacion) {
     elementoPuntuacion.innerHTML = ` Puntuación total: ${puntuacion}`;
@@ -12,15 +22,15 @@ const muestraPuntuacion = (): void => {
 };
 const generarNumeroAleatorioDeCarta = (): number => {
   let numeroAleatorioDeCarta: number = Math.ceil(Math.random() * 10);
-  if (numeroAleatorioDeCarta > 7) {
+  if (numeroAleatorioDeCarta > SIETE_DE_COPAS) {
     numeroAleatorioDeCarta = numeroAleatorioDeCarta + 2;
   }
   return numeroAleatorioDeCarta;
 };
 
 const sumarPuntuacion = (carta: number) => {
-  if (carta === 10 || carta === 11 || carta === 12) {
-    puntuacion = puntuacion + 0.5;
+  if (carta === SOTA || carta === CABALLO || carta === REY) {
+    puntuacion = puntuacion + MEDIO_PUNTO;
   } else {
     puntuacion = puntuacion + carta;
   }
@@ -29,17 +39,17 @@ const dameCarta = () => {
   const carta = generarNumeroAleatorioDeCarta();
   mostrarCarta(carta);
   sumarPuntuacion(carta);
-  muestraPuntuacion();
-  comprobarMano();
+  muestraPuntuacion(puntuacion);
+  comprobarMano(puntuacion);
 };
 const btnPedirCarta = document.getElementById("pedircarta");
 btnPedirCarta?.addEventListener("click", dameCarta);
 
-const comprobarMano = () => {
-  if (puntuacion === 7.5) {
+const comprobarMano = (puntuacion: number) => {
+  if (puntuacion === PUNTOS_PARA_GANAR) {
     mostrarMensaje("¡Lo has clavado! ¡Enhorabuena! 🥳");
     resetearBotonesCuandoGanamos();
-  } else if (puntuacion > 7.5) {
+  } else if (puntuacion > PUNTOS_PARA_GANAR) {
     gameOver();
   }
 };
@@ -220,16 +230,16 @@ const nuevaPartida = () => {
 document.addEventListener("DOMContentLoaded", nuevaPartida);
 
 const plantarse = () => {
-  if (puntuacion < 4) {
+  if (puntuacion < CUATRO_DE_COPAS) {
     mostrarMensaje("Has sido muy conservador");
   }
-  if (puntuacion === 5) {
+  if (puntuacion === CINCO_DE_COPAS) {
     mostrarMensaje("Te ha entrado el canguelo, eh?😂");
   }
-  if (puntuacion === 6 || puntuacion === 7) {
+  if (puntuacion === SEIS_DE_COPAS || puntuacion === SIETE_DE_COPAS) {
     mostrarMensaje("Casi casí...😲");
   }
-  if (puntuacion === 7.5) {
+  if (puntuacion === PUNTOS_PARA_GANAR) {
     mostrarMensaje("¡Lo has clavado! ¡Enhorabuena! 🥳");
   }
   reasetearBotonesAlPlantarse();
