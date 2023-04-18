@@ -31,13 +31,13 @@ const dameCarta = () => {
   const carta = generarNumeroAleatorioDeCarta();
   mostrarCarta(carta);
   sumarPuntuacion(carta);
+  muestraPuntuacion();
   comprobarMano();
 };
 const btnPedirCarta = document.getElementById("pedircarta");
 btnPedirCarta?.addEventListener("click", dameCarta);
 
 const comprobarMano = () => {
-  muestraPuntuacion();
   if (puntuacion === 7.5) {
     mostrarMensaje("¡Lo has clavado! ¡Enhorabuena! 🥳");
     resetearBotonesCuandoGanamos();
