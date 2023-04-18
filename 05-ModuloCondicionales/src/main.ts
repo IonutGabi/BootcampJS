@@ -219,6 +219,7 @@ const nuevaPartida = () => {
   resetearBotonesNuevaPartida();
 };
 
+document.addEventListener("DOMContentLoaded", nuevaPartida);
 const plantarse = () => {
   if (puntuacion < 4) {
     mostrarMensaje("Has sido muy conservador");
