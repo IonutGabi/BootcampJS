@@ -97,8 +97,7 @@ button:focus-visible {
   }
 }
 
-#mostrarpuntos {
+#mensaje {
   font-weight: bold;
   font-style: italic;
-  margin-bottom: 10px;
 }
