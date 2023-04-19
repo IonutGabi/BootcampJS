@@ -31,7 +31,12 @@ const dameCarta = () => {
   comprobarMano(puntuacion);
 };
 const btnPedirCarta = document.getElementById("pedircarta");
-btnPedirCarta?.addEventListener("click", dameCarta);
+
+if (btnPedirCarta && btnPedirCarta instanceof HTMLButtonElement) {
+  btnPedirCarta.addEventListener("click", dameCarta);
+} else {
+  console.error("btnPedirCarta: No se ha encontrado el elemento id pedircarta");
+}
 
 const comprobarMano = (puntuacion: number) => {
   if (puntuacion === 7.5) {
@@ -98,7 +103,9 @@ const mostrarImagen = (imagenUrl: string) => {
   if (imagen && imagen instanceof HTMLImageElement) {
     imagen.setAttribute("src", imagenUrl);
   } else {
-    console.error("No se ha encontrando el elemento con id imagen");
+    console.error(
+      "mostrarImagen: No se ha encontrado el elemento con id imagen"
+    );
   }
 };
 
@@ -233,7 +240,7 @@ const btnPlantarse = document.getElementById("plantarse");
 if (btnPlantarse && btnPlantarse instanceof HTMLButtonElement) {
   btnPlantarse.addEventListener("click", plantarse);
 } else {
-  console.error("No se ha encontrando el elemento id de plantarse");
+  console.error("No se ha encontrado el elemento id de plantarse");
 }
 
 const saberPasado = () => {
@@ -244,7 +251,9 @@ const btnSaberPasado = document.getElementById("saberpasado");
 if (btnSaberPasado && btnSaberPasado instanceof HTMLButtonElement) {
   btnSaberPasado.addEventListener("click", saberPasado);
 } else {
-  console.error("No se ha encontrando el elemento id saberpasado");
+  console.error(
+    "btnSaberPasado: No se ha encontrado el elemento id saberpasado"
+  );
 }
 
 const elementoNuevaPartida = document.getElementById("nuevapartida");
@@ -252,5 +261,7 @@ const elementoNuevaPartida = document.getElementById("nuevapartida");
 if (elementoNuevaPartida && elementoNuevaPartida instanceof HTMLButtonElement) {
   elementoNuevaPartida.addEventListener("click", nuevaPartida);
 } else {
-  console.error("No se ha encontrando el elemento id nuevapartida");
+  console.error(
+    "elementoNuevaPartida: No se ha encontrado el elemento id nuevapartida"
+  );
 }
