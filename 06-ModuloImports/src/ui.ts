@@ -1,167 +1,238 @@
-import { partida } from "./model";
-export const muestraPuntuacion = (): void => {
-  const elementoPuntuacion = document.getElementById("mostrarpuntos");
+import {
+  PUNTOS_PARA_GANAR,
+  CUATRO_DE_COPAS,
+  CINCO_DE_COPAS,
+  SEIS_DE_COPAS,
+  SIETE_DE_COPAS,
+  partida,
+} from "./model";
+import { generarNumeroAleatorioDeCarta, sumarPuntuacion } from "./motor";
+
+const muestraPuntuacion = () => {
+  const elementoPuntuacion = document.getElementById("mensaje");
   if (elementoPuntuacion) {
     elementoPuntuacion.innerHTML = ` Puntuación total: ${partida.puntuacion}`;
   } else {
     console.error(
-      "muestraPuntuacion: No se ha encontrado el elemento con id mostrarpuntos"
+      "muestraPuntuacion: No se ha encontrado el elemento con id mensaje"
     );
   }
 };
 
-document.addEventListener("DOMContentLoaded", muestraPuntuacion);
+export const dameCarta = () => {
+  const carta = generarNumeroAleatorioDeCarta();
+  mostrarCarta(carta);
+  sumarPuntuacion(carta);
+  muestraPuntuacion();
+  comprobarMano();
+};
 
-export const mostrarCarta = (carta: number): void => {
-  let imagen = document.getElementById("imagen");
+const comprobarMano = () => {
+  if (partida.puntuacion === PUNTOS_PARA_GANAR) {
+    mostrarMensaje("¡Lo has clavado! ¡Enhorabuena! 🥳");
+    resetearBotonesCuandoGanamos();
+  } else if (partida.puntuacion > PUNTOS_PARA_GANAR) {
+    gameOver();
+  }
+};
 
-  switch (carta) {
+const mostrarCarta = (numeroAleatorioDeCarta: number): void => {
+  let imagenUrl: string = "";
+
+  switch (numeroAleatorioDeCarta) {
     case 1:
-      imagen?.setAttribute(
-        "src",
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/1_as-copas.jpg"
-      );
+      imagenUrl =
+        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/1_as-copas.jpg";
       break;
 
     case 2:
-      imagen?.setAttribute(
-        "src",
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/2_dos-copas.jpg"
-      );
+      imagenUrl =
+        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/2_dos-copas.jpg";
       break;
 
     case 3:
-      imagen?.setAttribute(
-        "src",
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/3_tres-copas.jpg"
-      );
+      imagenUrl =
+        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/3_tres-copas.jpg";
       break;
 
     case 4:
-      imagen?.setAttribute(
-        "src",
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/4_cuatro-copas.jpg"
-      );
+      imagenUrl =
+        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/4_cuatro-copas.jpg";
       break;
 
     case 5:
-      imagen?.setAttribute(
-        "src",
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/5_cinco-copas.jpg"
-      );
+      imagenUrl =
+        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/5_cinco-copas.jpg";
       break;
 
     case 6:
-      imagen?.setAttribute(
-        "src",
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/6_seis-copas.jpg"
-      );
+      imagenUrl =
+        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/6_seis-copas.jpg";
       break;
 
     case 7:
-      imagen?.setAttribute(
-        "src",
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/7_siete-copas.jpg"
-      );
+      imagenUrl =
+        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/7_siete-copas.jpg";
       break;
 
     case 10:
-      imagen?.setAttribute(
-        "src",
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/10_sota-copas.jpg"
-      );
+      imagenUrl =
+        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/10_sota-copas.jpg";
       break;
 
     case 11:
-      imagen?.setAttribute(
-        "src",
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/11_caballo-copas.jpg"
-      );
+      imagenUrl =
+        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/11_caballo-copas.jpg";
       break;
 
     case 12:
-      imagen?.setAttribute(
-        "src",
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/12_rey-copas.jpg"
-      );
+      imagenUrl =
+        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/12_rey-copas.jpg";
       break;
 
     default:
       console.error("Ya lo has roto! 😆");
   }
+  mostrarImagen(imagenUrl);
 };
-export const gameOver = () => {
-  if (partida.puntuacion > 7.5) {
-    const elementoGameOver = document.getElementById("gameOver");
-    if (elementoGameOver) {
-      elementoGameOver.innerHTML = `GAME OVER, lo siento tu puntuación ha superado el 7.5`;
-    }
-    const elementoPedirCarta = document.getElementById("pedircarta");
-    if (elementoPedirCarta && elementoPedirCarta instanceof HTMLButtonElement) {
-      elementoPedirCarta.disabled = true;
-    } else {
-      console.error(
-        "GameOver: No se ha encontrado el elemento con id gameOver"
-      );
-    }
-    const elementoPlantarse = document.getElementById("plantarse");
-    if (elementoPlantarse && elementoPlantarse instanceof HTMLButtonElement) {
-      elementoPlantarse.disabled = true;
-    }
-    const elementoNuevaPartida = document.getElementById("nuevapartida");
-    elementoNuevaPartida?.removeAttribute("hidden");
-    elementoNuevaPartida?.addEventListener("click", () => {
-      location.reload();
-    });
-    const elementoSaberPasado = document.getElementById("saberpasado");
 
-    if (
-      elementoSaberPasado &&
-      elementoSaberPasado instanceof HTMLButtonElement
-    ) {
-      elementoSaberPasado.disabled = true;
-    }
-  }
+export const mostrarImagen = (imagenUrl: string) => {
+  let imagen = document.getElementById("imagen");
+  imagen?.setAttribute("src", imagenUrl);
 };
-export const plantarse = () => {
-  let mensaje: string = "";
 
-  if (partida.puntuacion < 4) {
-    mensaje = "Has sido muy conservador";
-  } else if (partida.puntuacion === 5) {
-    mensaje = "Te ha entrado el canguelo, eh?😂";
-  } else if (partida.puntuacion === 6 || partida.puntuacion === 7) {
-    mensaje = "Casi casí...😲";
-  } else if (partida.puntuacion === 7.5) {
-    mensaje = "¡Lo has clavado! ¡Enhorabuena! 🥳";
-  }
-
+export const mostrarMensaje = (mensaje: string) => {
   const elementoMensaje = document.getElementById("mensaje");
-  if (elementoMensaje) {
+  if (elementoMensaje && elementoMensaje instanceof HTMLDivElement) {
     elementoMensaje.innerHTML = mensaje;
   } else {
-    console.error("plantarse: No se ha encontrado el elemento con id mensaje");
+    console.error(
+      "mostrarMensaje: No se ha encontrado el elemento con id mensaje"
+    );
   }
+};
+
+export const gameOver = () => {
+  mostrarMensaje("GAME OVER! Tu puntuación ha superado los 7.5 puntos");
+  resetearBotonesGameOver();
+};
+
+export const resetearBotonesGameOver = () => {
   const elementoPedirCarta = document.getElementById("pedircarta");
   if (elementoPedirCarta && elementoPedirCarta instanceof HTMLButtonElement) {
     elementoPedirCarta.disabled = true;
-  } else {
-    console.error(
-      "plantarse: No se ha encontrado el elemento con id plantarse"
-    );
+  }
+
+  const elementoPlantarse = document.getElementById("plantarse");
+  if (elementoPlantarse && elementoPlantarse instanceof HTMLButtonElement) {
+    elementoPlantarse.disabled = true;
+  }
+  const elementoSaberPasado = document.getElementById("saberpasado");
+
+  if (elementoSaberPasado && elementoSaberPasado instanceof HTMLButtonElement) {
+    elementoSaberPasado.disabled = true;
+  }
+  const elementoNuevaPartida = document.getElementById("nuevapartida");
+  if (
+    elementoNuevaPartida &&
+    elementoNuevaPartida instanceof HTMLButtonElement
+  ) {
+    elementoNuevaPartida.removeAttribute("hidden");
+  }
+};
+
+const resetearBotonesCuandoGanamos = () => {
+  const elementoPedirCarta = document.getElementById("pedircarta");
+  if (elementoPedirCarta && elementoPedirCarta instanceof HTMLButtonElement) {
+    elementoPedirCarta.disabled = true;
   }
   const elementoPlantarse = document.getElementById("plantarse");
   if (elementoPlantarse && elementoPlantarse instanceof HTMLButtonElement) {
     elementoPlantarse.disabled = true;
+  }
 
-    const elementoNuevaPartida = document.getElementById("nuevapartida");
-    elementoNuevaPartida?.removeAttribute("hidden");
-    elementoNuevaPartida?.addEventListener("click", () => {
-      location.reload();
-    });
-  } else {
-    console.error(
-      "plantarse: No se ha encontrado el elemento con id plantarse"
-    );
+  const elementoSaberPasado = document.getElementById("saberpasado");
+
+  if (elementoSaberPasado && elementoSaberPasado instanceof HTMLButtonElement) {
+    elementoSaberPasado.disabled = true;
   }
 };
+
+const reasetearBotonesAlPlantarse = () => {
+  const elementoPedirCarta = document.getElementById("pedircarta");
+  if (elementoPedirCarta && elementoPedirCarta instanceof HTMLButtonElement) {
+    elementoPedirCarta.disabled = true;
+  }
+  const elementoPlantarse = document.getElementById("plantarse");
+  if (elementoPlantarse && elementoPlantarse instanceof HTMLButtonElement) {
+    elementoPlantarse.disabled = true;
+  }
+  const elementoSaberPasado = document.getElementById("saberpasado");
+
+  if (elementoSaberPasado && elementoSaberPasado instanceof HTMLButtonElement) {
+    elementoSaberPasado.disabled = false;
+  }
+  const elementoNuevaPartida = document.getElementById("nuevapartida");
+
+  if (
+    elementoNuevaPartida &&
+    elementoNuevaPartida instanceof HTMLButtonElement
+  ) {
+    elementoNuevaPartida.removeAttribute("hidden");
+  }
+};
+
+export const nuevaPartida = () => {
+  partida.puntuacion = 0;
+  mostrarImagen(
+    "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg"
+  );
+  mostrarMensaje("");
+  resetearBotonesNuevaPartida();
+};
+
+const resetearBotonesNuevaPartida = () => {
+  const elementoPlantarse = document.getElementById("plantarse");
+  if (elementoPlantarse && elementoPlantarse instanceof HTMLButtonElement) {
+    elementoPlantarse.disabled = false;
+  }
+  const elementoSaberPasado = document.getElementById("saberpasado");
+
+  if (elementoSaberPasado && elementoSaberPasado instanceof HTMLButtonElement) {
+    elementoSaberPasado.disabled = true;
+  }
+  const elementoPedirCarta = document.getElementById("pedircarta");
+  if (elementoPedirCarta && elementoPedirCarta instanceof HTMLButtonElement) {
+    elementoPedirCarta.disabled = false;
+  }
+  const elementoNuevaPartida = document.getElementById("nuevapartida");
+  if (
+    elementoNuevaPartida &&
+    elementoNuevaPartida instanceof HTMLButtonElement
+  ) {
+    elementoNuevaPartida.setAttribute("hidden", "hidden");
+  }
+};
+
+export const plantarse = () => {
+  if (partida.puntuacion < CUATRO_DE_COPAS) {
+    mostrarMensaje("Has sido muy conservador");
+  }
+  if (partida.puntuacion === CINCO_DE_COPAS) {
+    mostrarMensaje("Te ha entrado el canguelo, eh?😂");
+  }
+  if (
+    partida.puntuacion === SEIS_DE_COPAS ||
+    partida.puntuacion === SIETE_DE_COPAS
+  ) {
+    mostrarMensaje("Casi casí...😲");
+  }
+  if (partida.puntuacion === PUNTOS_PARA_GANAR) {
+    mostrarMensaje("¡Lo has clavado! ¡Enhorabuena! 🥳");
+  }
+  reasetearBotonesAlPlantarse();
+};
+
+export function saberPasado() {
+  dameCarta();
+}

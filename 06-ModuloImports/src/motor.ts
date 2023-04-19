@@ -1,21 +1,24 @@
-import { partida } from "./model";
-import { mostrarCarta, gameOver, muestraPuntuacion } from "./ui";
+import {
+  SIETE_DE_COPAS,
+  SOTA,
+  CABALLO,
+  REY,
+  MEDIO_PUNTO,
+  partida,
+} from "./model";
 
-export const dameCarta = () => {
-  let carta = Math.ceil(Math.random() * 10);
-  if (carta > 7) {
-    carta = carta + 2;
+export const generarNumeroAleatorioDeCarta = (): number => {
+  let numeroAleatorioDeCarta: number = Math.ceil(Math.random() * 10);
+  if (numeroAleatorioDeCarta > SIETE_DE_COPAS) {
+    numeroAleatorioDeCarta = numeroAleatorioDeCarta + 2;
   }
-  mostrarCarta(carta);
-  if (carta === 10 || carta === 11 || carta === 12) {
-    partida.puntuacion = partida.puntuacion + 0.5;
+  return numeroAleatorioDeCarta;
+};
+
+export const sumarPuntuacion = (carta: number) => {
+  if (carta === SOTA || carta === CABALLO || carta === REY) {
+    partida.puntuacion = partida.puntuacion + MEDIO_PUNTO;
   } else {
     partida.puntuacion = partida.puntuacion + carta;
   }
-  gameOver();
-  muestraPuntuacion();
 };
-
-export function saberPasado() {
-  dameCarta();
-}
