@@ -248,9 +248,9 @@ const plantarse = () => {
 const btnPlantarse = document.getElementById("plantarse");
 btnPlantarse?.addEventListener("click", plantarse);
 
-function saberPasado() {
+const saberPasado = () => {
   dameCarta();
-}
+};
 
 const btnSaberPasado = document.getElementById("saberpasado");
 btnSaberPasado?.addEventListener("click", saberPasado);
