@@ -1,18 +1,8 @@
 let puntuacion: number = 0;
 
-const CUATRO_DE_COPAS = 4;
-const CINCO_DE_COPAS = 5;
-const SEIS_DE_COPAS = 6;
-const SIETE_DE_COPAS = 7;
-const SOTA = 10;
-const CABALLO = 11;
-const REY = 12;
-const MEDIO_PUNTO = 0.5;
-const PUNTOS_PARA_GANAR = 7.5;
-
 const muestraPuntuacion = (puntuacion: number): void => {
   const elementoPuntuacion = document.getElementById("mensaje");
-  if (elementoPuntuacion) {
+  if (elementoPuntuacion && elementoPuntuacion instanceof HTMLDivElement) {
     elementoPuntuacion.innerHTML = ` Puntuación total: ${puntuacion}`;
   } else {
     console.error(
@@ -22,18 +12,16 @@ const muestraPuntuacion = (puntuacion: number): void => {
 };
 const generarNumeroAleatorioDeCarta = (): number => {
   let numeroAleatorioDeCarta: number = Math.ceil(Math.random() * 10);
-  if (numeroAleatorioDeCarta > SIETE_DE_COPAS) {
+  if (numeroAleatorioDeCarta > 7) {
     numeroAleatorioDeCarta = numeroAleatorioDeCarta + 2;
   }
   return numeroAleatorioDeCarta;
 };
 
 const sumarPuntuacion = (carta: number) => {
-  if (carta === SOTA || carta === CABALLO || carta === REY) {
-    puntuacion = puntuacion + MEDIO_PUNTO;
-  } else {
-    puntuacion = puntuacion + carta;
-  }
+  carta >= 10
+    ? (puntuacion = puntuacion + 0.5)
+    : (puntuacion = puntuacion + carta);
 };
 const dameCarta = () => {
   const carta = generarNumeroAleatorioDeCarta();
@@ -46,66 +34,57 @@ const btnPedirCarta = document.getElementById("pedircarta");
 btnPedirCarta?.addEventListener("click", dameCarta);
 
 const comprobarMano = (puntuacion: number) => {
-  if (puntuacion === PUNTOS_PARA_GANAR) {
+  if (puntuacion === 7.5) {
     mostrarMensaje("¡Lo has clavado! ¡Enhorabuena! 🥳");
     resetearBotonesCuandoGanamos();
-  } else if (puntuacion > PUNTOS_PARA_GANAR) {
+  } else if (puntuacion > 7.5) {
     gameOver();
   }
 };
 
 const mostrarCarta = (numeroAleatorioDeCarta: number): void => {
   let imagenUrl: string = "";
-
+  const URL =
+    "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas";
   switch (numeroAleatorioDeCarta) {
     case 1:
-      imagenUrl =
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/1_as-copas.jpg";
+      imagenUrl = `${URL}/1_as-copas.jpg;`;
       break;
 
     case 2:
-      imagenUrl =
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/2_dos-copas.jpg";
+      imagenUrl = `${URL}/2_dos-copas.jpg`;
       break;
 
     case 3:
-      imagenUrl =
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/3_tres-copas.jpg";
+      imagenUrl = `${URL}/3_tres-copas.jpg;`;
       break;
 
     case 4:
-      imagenUrl =
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/4_cuatro-copas.jpg";
+      imagenUrl = `${URL}/4_cuatro-copas.jpg`;
       break;
 
     case 5:
-      imagenUrl =
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/5_cinco-copas.jpg";
+      imagenUrl = `${URL}/5_cinco-copas.jpg;`;
       break;
 
     case 6:
-      imagenUrl =
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/6_seis-copas.jpg";
+      imagenUrl = `${URL}/6_seis-copas.jpg`;
       break;
 
     case 7:
-      imagenUrl =
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/7_siete-copas.jpg";
+      imagenUrl = `${URL}/7_siete-copas.jpg`;
       break;
 
     case 10:
-      imagenUrl =
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/10_sota-copas.jpg";
+      imagenUrl = `${URL}/10_sota-copas.jpg;`;
       break;
 
     case 11:
-      imagenUrl =
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/11_caballo-copas.jpg";
+      imagenUrl = `${URL}/11_caballo-copas.jpg`;
       break;
 
     case 12:
-      imagenUrl =
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/12_rey-copas.jpg";
+      imagenUrl = `${URL}/12_rey-copas.jpg`;
       break;
 
     default:
@@ -116,13 +95,17 @@ const mostrarCarta = (numeroAleatorioDeCarta: number): void => {
 
 const mostrarImagen = (imagenUrl: string) => {
   let imagen = document.getElementById("imagen");
-  imagen?.setAttribute("src", imagenUrl);
+  if (imagen && imagen instanceof HTMLImageElement) {
+    imagen.setAttribute("src", imagenUrl);
+  } else {
+    console.error("No se ha encontrando el elemento con id imagen");
+  }
 };
 
 const mostrarMensaje = (mensaje: string) => {
   const elementoMensaje = document.getElementById("mensaje");
   if (elementoMensaje && elementoMensaje instanceof HTMLDivElement) {
-    elementoMensaje.innerHTML = mensaje;
+    elementoMensaje.innerText = mensaje;
   } else {
     console.error(
       "mostrarMensaje: No se ha encontrado el elemento con id mensaje"
@@ -230,30 +213,44 @@ const nuevaPartida = () => {
 document.addEventListener("DOMContentLoaded", nuevaPartida);
 
 const plantarse = () => {
-  if (puntuacion < CUATRO_DE_COPAS) {
+  if (puntuacion < 4) {
     mostrarMensaje("Has sido muy conservador");
   }
-  if (puntuacion === CINCO_DE_COPAS) {
+  if (puntuacion === 5) {
     mostrarMensaje("Te ha entrado el canguelo, eh?😂");
   }
-  if (puntuacion === SEIS_DE_COPAS || puntuacion === SIETE_DE_COPAS) {
+  if (puntuacion === 6 || puntuacion === 7) {
     mostrarMensaje("Casi casí...😲");
   }
-  if (puntuacion === PUNTOS_PARA_GANAR) {
+  if (puntuacion === 7.5) {
     mostrarMensaje("¡Lo has clavado! ¡Enhorabuena! 🥳");
   }
   reasetearBotonesAlPlantarse();
 };
 
 const btnPlantarse = document.getElementById("plantarse");
-btnPlantarse?.addEventListener("click", plantarse);
+
+if (btnPlantarse && btnPlantarse instanceof HTMLButtonElement) {
+  btnPlantarse.addEventListener("click", plantarse);
+} else {
+  console.error("No se ha encontrando el elemento id de plantarse");
+}
 
 const saberPasado = () => {
   dameCarta();
 };
-
 const btnSaberPasado = document.getElementById("saberpasado");
-btnSaberPasado?.addEventListener("click", saberPasado);
+
+if (btnSaberPasado && btnSaberPasado instanceof HTMLButtonElement) {
+  btnSaberPasado.addEventListener("click", saberPasado);
+} else {
+  console.error("No se ha encontrando el elemento id saberpasado");
+}
 
 const elementoNuevaPartida = document.getElementById("nuevapartida");
-elementoNuevaPartida?.addEventListener("click", nuevaPartida);
+
+if (elementoNuevaPartida && elementoNuevaPartida instanceof HTMLButtonElement) {
+  elementoNuevaPartida.addEventListener("click", nuevaPartida);
+} else {
+  console.error("No se ha encontrando el elemento id nuevapartida");
+}
