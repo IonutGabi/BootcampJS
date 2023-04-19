@@ -233,6 +233,6 @@ export const plantarse = () => {
   reasetearBotonesAlPlantarse();
 };
 
-export function saberPasado() {
+export const saberPasado = () => {
   dameCarta();
-}
+};
