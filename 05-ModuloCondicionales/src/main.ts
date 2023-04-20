@@ -40,8 +40,7 @@ btnPedirCarta && btnPedirCarta instanceof HTMLButtonElement
 
 const comprobarMano = (puntuacion: number) => {
   if (puntuacion === 7.5) {
-    mostrarMensaje("¡Lo has clavado! ¡Enhorabuena! 🥳");
-    resetearBotonesCuandoGanamos();
+    ganarPartida();
   } else if (puntuacion > 7.5) {
     gameOver();
   }
@@ -115,6 +114,11 @@ const mostrarMensaje = (mensaje: string) => {
     : console.error(
         "mostrarMensaje: No se ha encontrado el elemento con id mensaje"
       );
+};
+
+const ganarPartida = () => {
+  mostrarMensaje("¡Lo has clavado! ¡Enhorabuena! 🥳");
+  resetearBotonesCuandoGanamos();
 };
 
 const gameOver = () => {
