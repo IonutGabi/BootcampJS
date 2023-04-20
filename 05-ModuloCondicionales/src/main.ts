@@ -148,6 +148,7 @@ const disableSaberPasado = (estaDeshabilitado: boolean) => {
 };
 
 const mostrarBotonNuevaPartida = () => {
+  const elementoNuevaPartida = document.getElementById("nuevapartida");
   if (
     elementoNuevaPartida &&
     elementoNuevaPartida instanceof HTMLButtonElement
@@ -157,6 +158,7 @@ const mostrarBotonNuevaPartida = () => {
 };
 
 const ocultarBotonNuevaPartida = () => {
+  const elementoNuevaPartida = document.getElementById("nuevapartida");
   if (
     elementoNuevaPartida &&
     elementoNuevaPartida instanceof HTMLButtonElement
