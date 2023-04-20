@@ -79,7 +79,11 @@ const mostrarCarta = (numeroAleatorioDeCarta: number): void => {
 
 const mostrarImagen = (imagenUrl: string) => {
   let imagen = document.getElementById("imagen");
-  imagen?.setAttribute("src", imagenUrl);
+  imagen && imagen instanceof HTMLImageElement
+    ? imagen.setAttribute("src", imagenUrl)
+    : console.error(
+        "mostrarImagen: No se ha encontrado el elemento con id imagen"
+      );
 };
 
 const mostrarMensaje = (mensaje: string) => {
