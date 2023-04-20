@@ -3,13 +3,11 @@ import { generarNumeroAleatorioDeCarta, sumarPuntuacion } from "./motor";
 
 const muestraPuntuacion = () => {
   const elementoPuntuacion = document.getElementById("mensaje");
-  if (elementoPuntuacion) {
-    elementoPuntuacion.innerHTML = ` Puntuación total: ${partida.puntuacion}`;
-  } else {
-    console.error(
-      "muestraPuntuacion: No se ha encontrado el elemento con id mensaje"
-    );
-  }
+  elementoPuntuacion && elementoPuntuacion instanceof HTMLDivElement
+    ? (elementoPuntuacion.innerText = ` Puntuación total: ${partida.puntuacion}`)
+    : console.error(
+        "muestraPuntuacion: No se ha encontrado el elemento con id mensaje"
+      );
 };
 
 export const dameCarta = () => {
@@ -22,8 +20,7 @@ export const dameCarta = () => {
 
 const comprobarMano = () => {
   if (partida.puntuacion === 7.5) {
-    mostrarMensaje("¡Lo has clavado! ¡Enhorabuena! 🥳");
-    resetearBotonesCuandoGanamos();
+    ganarPartida();
   } else if (partida.puntuacion > 7.5) {
     gameOver();
   }
@@ -31,47 +28,47 @@ const comprobarMano = () => {
 
 const mostrarCarta = (numeroAleatorioDeCarta: number): void => {
   let imagenUrl: string = "";
-  const URL =
-    "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas";
+  const URL: string =
+    "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/";
   switch (numeroAleatorioDeCarta) {
     case 1:
-      imagenUrl = `${URL}/1_as-copas.jpg  `;
+      imagenUrl = `${URL}1_as-copas.jpg`;
       break;
 
     case 2:
-      imagenUrl = `${URL}/2_dos-copas.jpg`;
+      imagenUrl = `${URL}2_dos-copas.jpg`;
       break;
 
     case 3:
-      imagenUrl = `${URL}/3_tres-copas.jpg`;
+      imagenUrl = `${URL}3_tres-copas.jpg`;
       break;
 
     case 4:
-      imagenUrl = `${URL}/4_cuatro-copas.jpg`;
+      imagenUrl = `${URL}4_cuatro-copas.jpg`;
       break;
 
     case 5:
-      imagenUrl = `${URL}/5_cinco-copas.jpg`;
+      imagenUrl = `${URL}5_cinco-copas.jpg`;
       break;
 
     case 6:
-      imagenUrl = `${URL}/6_seis-copas.jpg`;
+      imagenUrl = `${URL}6_seis-copas.jpg`;
       break;
 
     case 7:
-      imagenUrl = `${URL}/7_siete-copas.jpg`;
+      imagenUrl = `${URL}7_siete-copas.jpg`;
       break;
 
     case 10:
-      imagenUrl = `${URL}/10_sota-copas.jpg`;
+      imagenUrl = `${URL}10_sota-copas.jpg`;
       break;
 
     case 11:
-      imagenUrl = `${URL}/11_caballo-copas.jpg`;
+      imagenUrl = `${URL}11_caballo-copas.jpg`;
       break;
 
     case 12:
-      imagenUrl = `${URL}/12_rey-copas.jpg`;
+      imagenUrl = `${URL}12_rey-copas.jpg`;
       break;
 
     default:
@@ -80,42 +77,53 @@ const mostrarCarta = (numeroAleatorioDeCarta: number): void => {
   mostrarImagen(imagenUrl);
 };
 
-export const mostrarImagen = (imagenUrl: string) => {
+const mostrarImagen = (imagenUrl: string) => {
   let imagen = document.getElementById("imagen");
   imagen?.setAttribute("src", imagenUrl);
 };
 
-export const mostrarMensaje = (mensaje: string) => {
+const mostrarMensaje = (mensaje: string) => {
   const elementoMensaje = document.getElementById("mensaje");
-  if (elementoMensaje && elementoMensaje instanceof HTMLDivElement) {
-    elementoMensaje.innerHTML = mensaje;
-  } else {
-    console.error(
-      "mostrarMensaje: No se ha encontrado el elemento con id mensaje"
-    );
-  }
+
+  elementoMensaje && elementoMensaje instanceof HTMLDivElement
+    ? (elementoMensaje.innerText = mensaje)
+    : console.error(
+        "mostrarMensaje: No se ha encontrado el elemento con id mensaje"
+      );
 };
 
-export const gameOver = () => {
+const ganarPartida = () => {
+  mostrarMensaje("¡Lo has clavado! ¡Enhorabuena! 🥳");
+  resetearBotonesCuandoGanamos();
+};
+
+const gameOver = () => {
   mostrarMensaje("GAME OVER! Tu puntuación ha superado los 7.5 puntos");
   resetearBotonesGameOver();
 };
 
-export const resetearBotonesGameOver = () => {
-  const elementoPedirCarta = document.getElementById("pedircarta");
-  if (elementoPedirCarta && elementoPedirCarta instanceof HTMLButtonElement) {
-    elementoPedirCarta.disabled = true;
-  }
-
+const disablePlantarse = (estaDeshabilitado: boolean) => {
   const elementoPlantarse = document.getElementById("plantarse");
   if (elementoPlantarse && elementoPlantarse instanceof HTMLButtonElement) {
-    elementoPlantarse.disabled = true;
+    elementoPlantarse.disabled = estaDeshabilitado;
   }
-  const elementoSaberPasado = document.getElementById("saberpasado");
+};
 
-  if (elementoSaberPasado && elementoSaberPasado instanceof HTMLButtonElement) {
-    elementoSaberPasado.disabled = true;
+const disablePedirCarta = (estaDeshabilitado: boolean) => {
+  const elementoPedirCarta = document.getElementById("pedircarta");
+  if (elementoPedirCarta && elementoPedirCarta instanceof HTMLButtonElement) {
+    elementoPedirCarta.disabled = estaDeshabilitado;
   }
+};
+
+const disableSaberPasado = (estaDeshabilitado: boolean) => {
+  const elementoSaberPasado = document.getElementById("saberpasado");
+  if (elementoSaberPasado && elementoSaberPasado instanceof HTMLButtonElement) {
+    elementoSaberPasado.disabled = estaDeshabilitado;
+  }
+};
+
+const mostrarBotonNuevaPartida = () => {
   const elementoNuevaPartida = document.getElementById("nuevapartida");
   if (
     elementoNuevaPartida &&
@@ -123,47 +131,36 @@ export const resetearBotonesGameOver = () => {
   ) {
     elementoNuevaPartida.removeAttribute("hidden");
   }
+};
+
+const ocultarBotonNuevaPartida = () => {
+  const elementoNuevaPartida = document.getElementById("nuevapartida");
+  if (
+    elementoNuevaPartida &&
+    elementoNuevaPartida instanceof HTMLButtonElement
+  ) {
+    elementoNuevaPartida.setAttribute("hidden", "hidden");
+  }
+};
+
+const resetearBotonesGameOver = () => {
+  disablePlantarse(true);
+  disablePedirCarta(true);
+  disableSaberPasado(true);
+  mostrarBotonNuevaPartida();
 };
 
 const resetearBotonesCuandoGanamos = () => {
-  const elementoPedirCarta = document.getElementById("pedircarta");
-  if (elementoPedirCarta && elementoPedirCarta instanceof HTMLButtonElement) {
-    elementoPedirCarta.disabled = true;
-  }
-  const elementoPlantarse = document.getElementById("plantarse");
-  if (elementoPlantarse && elementoPlantarse instanceof HTMLButtonElement) {
-    elementoPlantarse.disabled = true;
-  }
-
-  const elementoSaberPasado = document.getElementById("saberpasado");
-
-  if (elementoSaberPasado && elementoSaberPasado instanceof HTMLButtonElement) {
-    elementoSaberPasado.disabled = true;
-  }
+  disablePlantarse(true);
+  disablePedirCarta(true);
+  disableSaberPasado(true);
 };
 
 const reasetearBotonesAlPlantarse = () => {
-  const elementoPedirCarta = document.getElementById("pedircarta");
-  if (elementoPedirCarta && elementoPedirCarta instanceof HTMLButtonElement) {
-    elementoPedirCarta.disabled = true;
-  }
-  const elementoPlantarse = document.getElementById("plantarse");
-  if (elementoPlantarse && elementoPlantarse instanceof HTMLButtonElement) {
-    elementoPlantarse.disabled = true;
-  }
-  const elementoSaberPasado = document.getElementById("saberpasado");
-
-  if (elementoSaberPasado && elementoSaberPasado instanceof HTMLButtonElement) {
-    elementoSaberPasado.disabled = false;
-  }
-  const elementoNuevaPartida = document.getElementById("nuevapartida");
-
-  if (
-    elementoNuevaPartida &&
-    elementoNuevaPartida instanceof HTMLButtonElement
-  ) {
-    elementoNuevaPartida.removeAttribute("hidden");
-  }
+  disablePlantarse(true);
+  disablePedirCarta(true);
+  disableSaberPasado(false);
+  mostrarBotonNuevaPartida();
 };
 
 export const nuevaPartida = () => {
@@ -176,26 +173,10 @@ export const nuevaPartida = () => {
 };
 
 const resetearBotonesNuevaPartida = () => {
-  const elementoPlantarse = document.getElementById("plantarse");
-  if (elementoPlantarse && elementoPlantarse instanceof HTMLButtonElement) {
-    elementoPlantarse.disabled = false;
-  }
-  const elementoSaberPasado = document.getElementById("saberpasado");
-
-  if (elementoSaberPasado && elementoSaberPasado instanceof HTMLButtonElement) {
-    elementoSaberPasado.disabled = true;
-  }
-  const elementoPedirCarta = document.getElementById("pedircarta");
-  if (elementoPedirCarta && elementoPedirCarta instanceof HTMLButtonElement) {
-    elementoPedirCarta.disabled = false;
-  }
-  const elementoNuevaPartida = document.getElementById("nuevapartida");
-  if (
-    elementoNuevaPartida &&
-    elementoNuevaPartida instanceof HTMLButtonElement
-  ) {
-    elementoNuevaPartida.setAttribute("hidden", "hidden");
-  }
+  disablePlantarse(false);
+  disablePedirCarta(false);
+  disableSaberPasado(true);
+  ocultarBotonNuevaPartida();
 };
 
 export const plantarse = () => {
@@ -216,4 +197,5 @@ export const plantarse = () => {
 
 export const saberPasado = () => {
   dameCarta();
+  disableSaberPasado(true);
 };
