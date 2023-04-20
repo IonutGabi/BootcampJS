@@ -1,5 +1,9 @@
-import { partida } from "./model";
-import { generarNumeroAleatorioDeCarta, sumarPuntuacion } from "./motor";
+import { partida, puntos } from "./model";
+import {
+  generarNumeroAleatorioDeCarta,
+  sumarPuntuacion,
+  obtenerEstadoPartida,
+} from "./motor";
 
 const muestraPuntuacion = () => {
   const elementoPuntuacion = document.getElementById("mensaje");
@@ -19,9 +23,10 @@ export const dameCarta = () => {
 };
 
 const comprobarMano = () => {
-  if (partida.puntuacion === 7.5) {
+  // partida.puntuacion > puntos.puntosTotales ? gameOver() : ganarPartida();
+  if (obtenerEstadoPartida() === "JUSTO_MAXIMA") {
     ganarPartida();
-  } else if (partida.puntuacion > 7.5) {
+  } else if (obtenerEstadoPartida() === "TE_HAS_PASADO") {
     gameOver();
   }
 };
@@ -184,16 +189,19 @@ const resetearBotonesNuevaPartida = () => {
 };
 
 export const plantarse = () => {
-  if (partida.puntuacion < 4) {
+  if (partida.puntuacion < puntos.cuatroDeCopas) {
     mostrarMensaje("Has sido muy conservador");
   }
-  if (partida.puntuacion === 5) {
+  if (partida.puntuacion === puntos.cincoDeCopas) {
     mostrarMensaje("Te ha entrado el canguelo, eh?😂");
   }
-  if (partida.puntuacion === 6 || partida.puntuacion === 7) {
+  if (
+    partida.puntuacion === puntos.seisDeCopas ||
+    partida.puntuacion === puntos.sieteDeCopas
+  ) {
     mostrarMensaje("Casi casí...😲");
   }
-  if (partida.puntuacion === 7.5) {
+  if (partida.puntuacion === puntos.puntosTotales) {
     mostrarMensaje("¡Lo has clavado! ¡Enhorabuena! 🥳");
   }
   reasetearBotonesAlPlantarse();
