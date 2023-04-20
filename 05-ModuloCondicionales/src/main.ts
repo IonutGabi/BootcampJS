@@ -2,14 +2,13 @@ let puntuacion: number = 0;
 
 const muestraPuntuacion = (puntuacion: number): void => {
   const elementoPuntuacion = document.getElementById("mensaje");
-  if (elementoPuntuacion && elementoPuntuacion instanceof HTMLDivElement) {
-    elementoPuntuacion.innerHTML = ` Puntuación total: ${puntuacion}`;
-  } else {
-    console.error(
-      "muestraPuntuacion: No se ha encontrado el elemento con id mensaje"
-    );
-  }
+  elementoPuntuacion && elementoPuntuacion instanceof HTMLDivElement
+    ? (elementoPuntuacion.innerText = ` Puntuación total: ${puntuacion}`)
+    : console.error(
+        "muestraPuntuacion: No se ha encontrado el elemento con id mensaje"
+      );
 };
+
 const generarNumeroAleatorioDeCarta = (): number => {
   let numeroAleatorioDeCarta: number = Math.ceil(Math.random() * 10);
   if (numeroAleatorioDeCarta > 7) {
@@ -30,13 +29,14 @@ const dameCarta = () => {
   muestraPuntuacion(puntuacion);
   comprobarMano(puntuacion);
 };
+
 const btnPedirCarta = document.getElementById("pedircarta");
 
-if (btnPedirCarta && btnPedirCarta instanceof HTMLButtonElement) {
-  btnPedirCarta.addEventListener("click", dameCarta);
-} else {
-  console.error("btnPedirCarta: No se ha encontrado el elemento id pedircarta");
-}
+btnPedirCarta && btnPedirCarta instanceof HTMLButtonElement
+  ? btnPedirCarta.addEventListener("click", dameCarta)
+  : console.error(
+      "btnPedirCarta: No se ha encontrado el elemento id pedircarta"
+    );
 
 const comprobarMano = (puntuacion: number) => {
   if (puntuacion === 7.5) {
@@ -100,25 +100,23 @@ const mostrarCarta = (numeroAleatorioDeCarta: number): void => {
 
 const mostrarImagen = (imagenUrl: string) => {
   let imagen = document.getElementById("imagen");
-  if (imagen && imagen instanceof HTMLImageElement) {
-    imagen.setAttribute("src", imagenUrl);
-  } else {
-    console.error(
-      "mostrarImagen: No se ha encontrado el elemento con id imagen"
-    );
-  }
+  imagen && imagen instanceof HTMLImageElement
+    ? imagen.setAttribute("src", imagenUrl)
+    : console.error(
+        "mostrarImagen: No se ha encontrado el elemento con id imagen"
+      );
 };
 
 const mostrarMensaje = (mensaje: string) => {
   const elementoMensaje = document.getElementById("mensaje");
-  if (elementoMensaje && elementoMensaje instanceof HTMLDivElement) {
-    elementoMensaje.innerText = mensaje;
-  } else {
-    console.error(
-      "mostrarMensaje: No se ha encontrado el elemento con id mensaje"
-    );
-  }
+
+  elementoMensaje && elementoMensaje instanceof HTMLDivElement
+    ? (elementoMensaje.innerText = mensaje)
+    : console.error(
+        "mostrarMensaje: No se ha encontrado el elemento con id mensaje"
+      );
 };
+
 const gameOver = () => {
   mostrarMensaje("GAME OVER! Tu puntuación ha superado los 7.5 puntos");
   resetearBotonesGameOver();
@@ -162,6 +160,7 @@ const ocultarBotonNuevaPartida = () => {
     elementoNuevaPartida.setAttribute("hidden", "hidden");
   }
 };
+
 const resetearBotonesGameOver = () => {
   disablePlantarse(true);
   disablePedirCarta(true);
@@ -180,12 +179,14 @@ const reasetearBotonesAlPlantarse = () => {
   disableSaberPasado(false);
   mostrarBotonNuevaPartida();
 };
+
 const resetearBotonesNuevaPartida = () => {
   disablePlantarse(false);
   disableSaberPasado(true);
   disablePedirCarta(false);
   ocultarBotonNuevaPartida();
 };
+
 const nuevaPartida = () => {
   puntuacion = 0;
   mostrarImagen(
@@ -195,7 +196,10 @@ const nuevaPartida = () => {
   resetearBotonesNuevaPartida();
 };
 
-document.addEventListener("DOMContentLoaded", nuevaPartida);
+const saberPasado = () => {
+  dameCarta();
+  disableSaberPasado(true);
+};
 
 const plantarse = () => {
   if (puntuacion < 4) {
@@ -214,32 +218,21 @@ const plantarse = () => {
 };
 
 const btnPlantarse = document.getElementById("plantarse");
+btnPlantarse && btnPlantarse instanceof HTMLButtonElement
+  ? btnPlantarse.addEventListener("click", plantarse)
+  : console.error("No se ha encontrado el elemento id de plantarse");
 
-if (btnPlantarse && btnPlantarse instanceof HTMLButtonElement) {
-  btnPlantarse.addEventListener("click", plantarse);
-} else {
-  console.error("No se ha encontrado el elemento id de plantarse");
-}
-
-const saberPasado = () => {
-  dameCarta();
-};
 const btnSaberPasado = document.getElementById("saberpasado");
-
-if (btnSaberPasado && btnSaberPasado instanceof HTMLButtonElement) {
-  btnSaberPasado.addEventListener("click", saberPasado);
-} else {
-  console.error(
-    "btnSaberPasado: No se ha encontrado el elemento id saberpasado"
-  );
-}
+btnSaberPasado && btnSaberPasado instanceof HTMLButtonElement
+  ? btnSaberPasado.addEventListener("click", saberPasado)
+  : console.error(
+      "btnSaberPasado: No se ha encontrado el elemento id saberpasado"
+    );
 
 const elementoNuevaPartida = document.getElementById("nuevapartida");
-
-if (elementoNuevaPartida && elementoNuevaPartida instanceof HTMLButtonElement) {
-  elementoNuevaPartida.addEventListener("click", nuevaPartida);
-} else {
-  console.error(
-    "elementoNuevaPartida: No se ha encontrado el elemento id nuevapartida"
-  );
-}
+elementoNuevaPartida && elementoNuevaPartida instanceof HTMLButtonElement
+  ? elementoNuevaPartida.addEventListener("click", nuevaPartida)
+  : console.error(
+      "elementoNuevaPartida: No se ha encontrado el elemento id nuevapartida"
+    );
+document.addEventListener("DOMContentLoaded", nuevaPartida);
