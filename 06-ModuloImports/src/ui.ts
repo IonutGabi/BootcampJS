@@ -174,6 +174,7 @@ const reasetearBotonesAlPlantarse = () => {
 
 export const nuevaPartida = () => {
   partida.puntuacion = 0;
+  partida.estado = "POR_DEBAJO_MAXIMO";
   mostrarImagen(
     "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg"
   );

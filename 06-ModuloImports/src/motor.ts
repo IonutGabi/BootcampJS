@@ -1,9 +1,10 @@
 import { EstadoPartida, partida, puntos } from "./model";
 
 export const obtenerEstadoPartida = (): EstadoPartida => {
+  console.log(partida.puntuacion);
   if (partida.puntuacion === puntos.puntosTotales) {
     partida.estado = "JUSTO_MAXIMA";
-  } else {
+  } else if (partida.puntuacion > puntos.puntosTotales) {
     partida.estado = "TE_HAS_PASADO";
   }
   return partida.estado;

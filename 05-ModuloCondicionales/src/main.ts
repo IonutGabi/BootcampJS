@@ -1,5 +1,14 @@
 let puntuacion: number = 0;
 
+const puntosTotales = 7.5;
+const medioPunto = 0.5;
+const cuatroDeCopas = 4;
+const cincoDeCopas = 5;
+const seisDeCopas = 6;
+const sieteDeCopas = 7;
+const sota = 10;
+type EstadoPartida = "POR_DEBAJO_MAXIMO" | "JUSTO_MAXIMA" | "TE_HAS_PASADO";
+let estado: EstadoPartida = "POR_DEBAJO_MAXIMO";
 const muestraPuntuacion = (puntuacion: number): void => {
   const elementoPuntuacion = document.getElementById("mensaje");
   elementoPuntuacion && elementoPuntuacion instanceof HTMLDivElement
@@ -9,17 +18,26 @@ const muestraPuntuacion = (puntuacion: number): void => {
       );
 };
 
+const obtenerEstadoPartida = (): EstadoPartida => {
+  if (puntuacion === puntosTotales) {
+    estado = "JUSTO_MAXIMA";
+  } else if (puntuacion > puntosTotales) {
+    estado = "TE_HAS_PASADO";
+  }
+  return estado;
+};
+
 const generarNumeroAleatorioDeCarta = (): number => {
   let numeroAleatorioDeCarta: number = Math.ceil(Math.random() * 10);
-  if (numeroAleatorioDeCarta > 7) {
+  if (numeroAleatorioDeCarta > sieteDeCopas) {
     numeroAleatorioDeCarta = numeroAleatorioDeCarta + 2;
   }
   return numeroAleatorioDeCarta;
 };
 
 const sumarPuntuacion = (carta: number) => {
-  carta >= 10
-    ? (puntuacion = puntuacion + 0.5)
+  carta >= sota
+    ? (puntuacion = puntuacion + medioPunto)
     : (puntuacion = puntuacion + carta);
 };
 const dameCarta = () => {
@@ -27,7 +45,7 @@ const dameCarta = () => {
   mostrarCarta(carta);
   sumarPuntuacion(carta);
   muestraPuntuacion(puntuacion);
-  comprobarMano(puntuacion);
+  comprobarMano();
 };
 
 const btnPedirCarta = document.getElementById("pedircarta");
@@ -38,10 +56,10 @@ btnPedirCarta && btnPedirCarta instanceof HTMLButtonElement
       "btnPedirCarta: No se ha encontrado el elemento id pedircarta"
     );
 
-const comprobarMano = (puntuacion: number) => {
-  if (puntuacion === 7.5) {
+const comprobarMano = () => {
+  if (obtenerEstadoPartida() === "JUSTO_MAXIMA") {
     ganarPartida();
-  } else if (puntuacion > 7.5) {
+  } else if (obtenerEstadoPartida() === "TE_HAS_PASADO") {
     gameOver();
   }
 };
@@ -195,6 +213,7 @@ const resetearBotonesNuevaPartida = () => {
 
 const nuevaPartida = () => {
   puntuacion = 0;
+  estado = "POR_DEBAJO_MAXIMO";
   mostrarImagen(
     "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg"
   );
@@ -208,16 +227,16 @@ const saberPasado = () => {
 };
 
 const plantarse = () => {
-  if (puntuacion < 4) {
+  if (puntuacion < cuatroDeCopas) {
     mostrarMensaje("Has sido muy conservador");
   }
-  if (puntuacion === 5) {
+  if (puntuacion === cincoDeCopas) {
     mostrarMensaje("Te ha entrado el canguelo, eh?😂");
   }
-  if (puntuacion === 6 || puntuacion === 7) {
+  if (puntuacion === seisDeCopas || puntuacion === sieteDeCopas) {
     mostrarMensaje("Casi casí...😲");
   }
-  if (puntuacion === 7.5) {
+  if (puntuacion === puntosTotales) {
     mostrarMensaje("¡Lo has clavado! ¡Enhorabuena! 🥳");
   }
   reasetearBotonesAlPlantarse();
