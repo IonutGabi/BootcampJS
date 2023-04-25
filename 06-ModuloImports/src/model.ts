@@ -32,3 +32,6 @@ export const puntos: PuntoDeJuego = {
   sieteDeCopas: 7,
   sota: 10,
 };
+
+export const setPuntos = (nuevosPuntos: number) =>
+  (partida.puntuacion = nuevosPuntos);

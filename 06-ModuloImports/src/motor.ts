@@ -19,7 +19,7 @@ export const generarNumeroAleatorioDeCarta = (): number => {
 };
 
 export const sumarPuntuacion = (carta: number) => {
-  carta >= puntos.sota
-    ? (partida.puntuacion = partida.puntuacion + puntos.medioPunto)
-    : (partida.puntuacion = partida.puntuacion + carta);
+  return carta >= puntos.sota
+    ? partida.puntuacion + puntos.medioPunto
+    : partida.puntuacion + carta;
 };

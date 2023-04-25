@@ -1,4 +1,4 @@
-import { partida, puntos } from "./model";
+import { partida, puntos, setPuntos } from "./model";
 import {
   generarNumeroAleatorioDeCarta,
   sumarPuntuacion,
@@ -17,6 +17,8 @@ const muestraPuntuacion = () => {
 export const dameCarta = () => {
   const carta = generarNumeroAleatorioDeCarta();
   mostrarCarta(carta);
+  const puntuacion = sumarPuntuacion(carta);
+  setPuntos(puntuacion);
   sumarPuntuacion(carta);
   muestraPuntuacion();
   comprobarMano();
