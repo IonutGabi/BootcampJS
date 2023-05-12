@@ -11,7 +11,7 @@ interface Pacientes {
   edad: number;
 }
 
-let pacientes: Pacientes[] = [
+const pacientes: Pacientes[] = [
   {
     id: 1,
     nombre: "John",
@@ -136,7 +136,7 @@ const reasignaPacientesAMedicoFamilia = (
 ): Pacientes[] => {
   let i = 0;
 
-  let copiaArrayPacientes: Pacientes[] = pacientes.slice();
+  const copiaArrayPacientes: Pacientes[] = pacientes.slice();
 
   while (i < copiaArrayPacientes.length) {
     if (copiaArrayPacientes[i].especialidad === "Pediatra") {
