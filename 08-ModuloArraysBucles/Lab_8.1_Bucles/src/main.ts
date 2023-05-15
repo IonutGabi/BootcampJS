@@ -114,8 +114,8 @@ const activarProtocoloUrgencia = (pacientes: Pacientes[]): boolean => {
 
   for (let i: number = 0; i < pacientes.length; i++) {
     if (
-      pacientes[i].frecuenciaCardiaca < 100 &&
-      pacientes[i].temperatura < 39
+      pacientes[i].frecuenciaCardiaca > 100 &&
+      pacientes[i].temperatura > 39
     ) {
       activarProctolo = true;
     }
