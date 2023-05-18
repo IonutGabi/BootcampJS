@@ -139,8 +139,8 @@ console.log(
 // Apartado 4
 
 const HayPacientesDePediatria = (pacientes: Pacientes[]): boolean => {
-  let pediatraACasa: boolean = false;
-  pacientes.forEach((paciente) =>
+  let pediatraACasa = false;
+  pacientes.filter((paciente) =>
     paciente.especialidad === "Pediatra"
       ? (pediatraACasa = false)
       : (pediatraACasa = true)
