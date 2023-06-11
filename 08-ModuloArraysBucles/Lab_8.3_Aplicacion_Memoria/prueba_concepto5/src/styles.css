@@ -1,0 +1,33 @@
+.container {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(3, 0fr);
+  gap: 13px;
+}
+
+.container div {
+  background-color: #87cefa;
+  width: 120px;
+  height: 120px;
+  border-radius: 10%;
+}
+
+.carta-volteada {
+  background-color: red;
+  transform: rotateY(180deg);
+  transition: 1s;
+}
+
+img {
+  width: 100px;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-container:hover {
+  cursor: pointer;
+}

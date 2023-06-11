@@ -1,0 +1,24 @@
+* {
+  box-sizing: border-box;
+}
+
+.primeracarta {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin-bottom: 20px;
+  background-color: #87cefa;
+  border-radius: 10%;
+  cursor: pointer;
+}
+
+.segundacarta {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin-top: -140px;
+  margin-left: 150px;
+  background-color: #87cefa;
+  border-radius: 10%;
+  cursor: pointer;
+}

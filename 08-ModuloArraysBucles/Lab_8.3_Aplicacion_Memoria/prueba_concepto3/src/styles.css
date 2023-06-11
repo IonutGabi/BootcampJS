@@ -1,0 +1,16 @@
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(4, 0fr);
+  gap: 13px;
+}
+.container div {
+  background-color: #87cefa;
+  width: 120px;
+  height: 120px;
+  border-radius: 10%;
+}
