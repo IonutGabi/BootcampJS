@@ -1,4 +1,4 @@
-import { Carta, Tablero } from "./modelo";
+import { Carta, Tablero, partida } from "./modelo";
 
 export const barajarCartas = (cartas: Carta[]): Carta[] => {
   let arrayCopy = [...cartas];
@@ -52,11 +52,17 @@ export const parejaEncontrada = (
   indiceA: number,
   indiceB: number
 ): void => {
-  tablero.cartas[indiceA].encontrada = true;
-  tablero.cartas[indiceB].encontrada = true;
-  tablero.estadoPartida = esPartidaCompleta(tablero)
-    ? "PartidaCompleta"
-    : "CeroCartasLevantadas";
+  const cartaA = tablero.cartas[indiceA];
+  const cartaB = tablero.cartas[indiceB];
+  const cartas: Carta[] = tablero.cartas.map((carta) =>
+    cartaA.idFoto === carta.idFoto || cartaB.idFoto === carta.idFoto
+      ? { ...carta, encontrada: true, estaVuelta: true }
+      : carta
+  );
+  tablero.cartas = [...cartas];
+  tablero.indiceCartaVolteadaA = undefined;
+  tablero.indiceCartaVolteadaB = undefined;
+  tablero.estadoPartida = "CeroCartasLevantadas";
 };
 
 export const parejaNoEncontrada = (
@@ -64,13 +70,24 @@ export const parejaNoEncontrada = (
   indiceA: number,
   indiceB: number
 ): void => {
-  tablero.cartas[indiceA].encontrada = false;
-  tablero.cartas[indiceB].encontrada = false;
+  const cartaA = tablero.cartas[indiceA];
+  const cartaB = tablero.cartas[indiceB];
+  const cartas: Carta[] = tablero.cartas.map((carta) =>
+    cartaA.idFoto === carta.idFoto || cartaB.idFoto === carta.idFoto
+      ? { ...carta, encontrada: false, estaVuelta: false }
+      : carta
+  );
+  tablero.cartas = [...cartas];
+  tablero.indiceCartaVolteadaA = undefined;
+  tablero.indiceCartaVolteadaB = undefined;
   tablero.estadoPartida = "CeroCartasLevantadas";
+  setIntentos(++partida.intentos);
 };
 
 export const esPartidaCompleta = (tablero: Tablero): boolean =>
-  tablero.cartas.every((carta) => (carta.encontrada = true));
+  tablero.cartas.every(
+    (carta) => carta.encontrada === true && carta.estaVuelta === true
+  );
 
 export const iniciarPartida = (tablero: Tablero): void => {
   tablero.estadoPartida = "CeroCartasLevantadas";
@@ -80,4 +97,8 @@ export const iniciarPartida = (tablero: Tablero): void => {
     encontrada: false,
   }));
   tablero.cartas = barajarCartas(cartas);
+};
+
+let setIntentos = (nuevosIntentos: number) => {
+  partida.intentos = nuevosIntentos;
 };

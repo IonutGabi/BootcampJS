@@ -29,6 +29,10 @@ body {
   transition: background-color 0.3s ease, transform 0.3s ease;
   cursor: pointer;
 }
+.card:hover {
+  box-shadow: 0 4px 16px rgba(106, 192, 245, 1);
+  transition: all 0.2 ease;
+}
 .boton {
   color: #fff;
   background-color: rgb(167, 115, 204);
@@ -57,4 +61,31 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+#mensaje {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 25px;
+  color: #213547;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+#mensajeError {
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+  color: #8f1111;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+#intentos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #213547;
 }

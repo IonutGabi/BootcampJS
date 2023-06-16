@@ -43,6 +43,14 @@ const infoCartas: InfoCarta[] = [
   },
 ];
 
+interface Partida {
+  intentos: number;
+}
+
+export const partida: Partida = {
+  intentos: 0,
+};
+
 const crearCartaInicial = (idFoto: number, imagen: string): Carta => ({
   idFoto,
   imagen,
