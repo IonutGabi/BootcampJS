@@ -9,6 +9,7 @@ En esta prueba he creado, primero un array de emojis, luego me cree el método b
 ![Esta es la primera imagen de la prueba de concepto 2 - HTML](./images/imagen2.png)
 
 El primer archivo que vamos a modificar es el HTML, le vamos a añadir un div con la clase **_carta_** y un id llamado **_caja_**
+
 ![Esta es la segunda imagen de la prueba de concepto 2 - CSS](./images/imagen3.png)
 
 Luego hemos creado un archivo **_styles.css_** para aplicarle un poco de estilo al div, como un color de fondo, un ancho un alto y un borde redondeado, también lo hemos centrado
@@ -58,6 +59,7 @@ La siguiente clase es **_image-container_** a está clase le decimos que sea **_
 ![Esta es la tercera imagen de la prueba de concepto 5 - TS](./images/imagen12.png)
 
 En el archivo main.ts, primero vamos a crear un interfaz llamada InfoCarta, que va a tener como atributos el idFoto y la imagen cada uno con su tipo correspondiente, una vez hecho eso, crearemos el array de cartas en base a la interfaz creada anteriormente.
+
 ![Esta es la cuarta imagen de la prueba de concepto 5 - TS](./images/imagen13.png)
 
 Luego de haber creado el array, nos creamos un método llamado **_crearTablero_** en donde, con el array method **forEach** recorreremos el array de cartas, pillamos el atributo **_data-id-carta_** le pasamos el **indice** y luego creamos un evento en donde cuando se pulse en la carta este método llamará a otro, que lo hemos llamado **_mostrarImagen_**.
