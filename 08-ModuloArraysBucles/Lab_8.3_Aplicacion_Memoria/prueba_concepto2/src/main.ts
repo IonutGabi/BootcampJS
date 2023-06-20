@@ -7,4 +7,6 @@ const voltearCarta = (): void => {
 };
 
 const caja = document.getElementById("caja");
-caja?.addEventListener("click", voltearCarta);
+if (caja && caja instanceof HTMLDivElement) {
+  caja.addEventListener("click", voltearCarta);
+}

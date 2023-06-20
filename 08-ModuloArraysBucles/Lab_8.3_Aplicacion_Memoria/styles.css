@@ -66,7 +66,7 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 25px;
+  margin-top: 15px;
   color: #213547;
   font-size: 20px;
   font-weight: bold;
@@ -75,17 +75,18 @@ img {
 #mensajeError {
   display: flex;
   justify-content: center;
-  margin-top: 25px;
+  margin-top: 15px;
   color: #8f1111;
   border-radius: 5px;
   padding: 10px;
   font-size: 20px;
   font-weight: bold;
 }
-
 #intentos {
   display: flex;
   justify-content: center;
-  align-items: center;
-  color: #213547;
+  margin-top: 15px;
+  color: rgb(33, 53, 71);
+  font-size: 20px;
+  font-weight: bold;
 }

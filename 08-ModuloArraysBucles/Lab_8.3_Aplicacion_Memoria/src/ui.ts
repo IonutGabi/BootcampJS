@@ -1,37 +1,19 @@
 import { Tablero, partida, tablero } from "./modelo";
 import {
   esPartidaCompleta,
-  iniciarPartida,
   parejaEncontrada,
   parejaNoEncontrada,
   sePuedeVoltearLaCarta,
   sonPareja,
   voltearLaCarta,
+  iniciaPartida,
 } from "./motor";
 
-const btnEmpezarPartida = document.getElementById("boton");
-btnEmpezarPartida && btnEmpezarPartida instanceof HTMLButtonElement
-  ? btnEmpezarPartida.addEventListener("click", () => iniciarPartida(tablero))
-  : console.error(
-      "btnEmpezarPartida: No se ha encontrado el elemento id buton"
-    );
-
-const muestraIntentos = (tablero: Tablero) => {
-  if (
-    tablero.indiceCartaVolteadaA != undefined &&
-    tablero.indiceCartaVolteadaB != undefined
-  ) {
-    parejaNoEncontrada(
-      tablero,
-      tablero.indiceCartaVolteadaA,
-      tablero.indiceCartaVolteadaB
-    );
-    const numIntentos = document.getElementById("intentos");
-    if (numIntentos && numIntentos instanceof HTMLDivElement) {
-      numIntentos.textContent = `Número de intentos: ${partida.intentos}`;
-    }
+const muestraIntentos = () => {
+  const numIntentos = document.getElementById("intentos");
+  if (numIntentos && numIntentos instanceof HTMLDivElement) {
+    numIntentos.innerText = `Número de intentos: ${partida.intentos}`;
   }
-  console.log(partida.intentos);
 };
 const laCartaSePuedeVoltear = (indice: number, tablero: Tablero) => {
   sePuedeVoltearLaCarta(indice, tablero) === true
@@ -39,7 +21,12 @@ const laCartaSePuedeVoltear = (indice: number, tablero: Tablero) => {
     : mensajeYaEstaDadaLaVuelta();
 };
 
-const crearTablero = (tablero: Tablero) => {
+export const crearTablero = () => {
+  iniciaPartida(tablero);
+  iniciarPartida(tablero);
+};
+
+const iniciarPartida = (tablero: Tablero) => {
   const tableroContenedor = document.getElementById("tablero");
   if (tableroContenedor && tableroContenedor instanceof HTMLDivElement) {
     tablero.cartas.forEach((_, indice) => {
@@ -57,21 +44,25 @@ const mostrarImagen = (tablero: Tablero, indice: number) => {
     imagen.src = tablero.cartas[indice].imagen;
   }
 };
+
+const volverAVoltearLaCarta = (tablero: Tablero, indice: number) => {
+  if (!tablero.cartas[indice].encontrada) {
+    const imagen = document.querySelector(
+      `img[data-indice-imagen="${indice}"]`
+    );
+    if (imagen && imagen instanceof HTMLImageElement) {
+      imagen.src = "";
+    }
+    const div = document.querySelector(`div[data-indice-array="${indice}"]`);
+    if (div && div instanceof HTMLDivElement) {
+      div.classList.remove("carta-volteada");
+    }
+  }
+};
 const ocultarImagen = (tablero: Tablero, indice: number) => {
   for (let i = 0; i < tablero.cartas.length; i++) {
     indice = i;
-    if (!tablero.cartas[indice].encontrada) {
-      const imagen = document.querySelector(
-        `img[data-indice-imagen="${indice}"]`
-      );
-      if (imagen && imagen instanceof HTMLImageElement) {
-        imagen.src = "";
-      }
-      const div = document.querySelector(`div[data-indice-array="${indice}"]`);
-      if (div && div instanceof HTMLDivElement) {
-        div.classList.remove("carta-volteada");
-      }
-    }
+    volverAVoltearLaCarta(tablero, indice);
   }
 };
 const mostrarCarta = (
@@ -79,7 +70,6 @@ const mostrarCarta = (
   indice: number,
   div: HTMLDivElement
 ): void => {
-  muestraIntentos(tablero);
   laCartaSePuedeVoltear(indice, tablero);
   mostrarImagen(tablero, indice);
   div.classList.add("carta-volteada");
@@ -145,6 +135,7 @@ const noEsPareja = (tablero: Tablero, indice: number) => {
       tablero.indiceCartaVolteadaA,
       tablero.indiceCartaVolteadaB
     );
+    muestraIntentos();
   }
 };
 
@@ -157,4 +148,3 @@ const mensajeYaEstaDadaLaVuelta = (): void => {
     }, 2000);
   }
 };
-document.addEventListener("DOMContentLoaded", () => crearTablero(tablero));

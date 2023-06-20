@@ -80,8 +80,8 @@ export const parejaNoEncontrada = (
   tablero.cartas = [...cartas];
   tablero.indiceCartaVolteadaA = undefined;
   tablero.indiceCartaVolteadaB = undefined;
+  setIntentos();
   tablero.estadoPartida = "CeroCartasLevantadas";
-  setIntentos(++partida.intentos);
 };
 
 export const esPartidaCompleta = (tablero: Tablero): boolean =>
@@ -89,7 +89,7 @@ export const esPartidaCompleta = (tablero: Tablero): boolean =>
     (carta) => carta.encontrada === true && carta.estaVuelta === true
   );
 
-export const iniciarPartida = (tablero: Tablero): void => {
+export const iniciaPartida = (tablero: Tablero): void => {
   tablero.estadoPartida = "CeroCartasLevantadas";
   const cartas: Carta[] = tablero.cartas.map((carta) => ({
     ...carta,
@@ -99,6 +99,7 @@ export const iniciarPartida = (tablero: Tablero): void => {
   tablero.cartas = barajarCartas(cartas);
 };
 
-let setIntentos = (nuevosIntentos: number) => {
-  partida.intentos = nuevosIntentos;
+let setIntentos = (): number => {
+  partida.intentos++;
+  return partida.intentos;
 };
