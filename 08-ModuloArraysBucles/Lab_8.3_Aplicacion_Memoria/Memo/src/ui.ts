@@ -7,6 +7,8 @@ import {
   sonPareja,
   voltearLaCarta,
   iniciaPartida,
+  compruebaSiEstamosEnLaPrimeraCarta,
+  compruebaSiEstamosEnLaSegundaCarta,
 } from "./motor";
 
 const muestraIntentos = () => {
@@ -59,10 +61,9 @@ const volverAVoltearLaCarta = (tablero: Tablero, indice: number) => {
     }
   }
 };
-const ocultarImagen = (tablero: Tablero, indice: number) => {
+const ocultarImagen = (tablero: Tablero) => {
   for (let i = 0; i < tablero.cartas.length; i++) {
-    indice = i;
-    volverAVoltearLaCarta(tablero, indice);
+    volverAVoltearLaCarta(tablero, i);
   }
 };
 const mostrarCarta = (
@@ -75,68 +76,41 @@ const mostrarCarta = (
   div.classList.add("carta-volteada");
   compruebaSiEstamosEnLaPrimeraCarta(tablero);
   compruebaSiEstamosEnLaSegundaCarta(tablero);
-  compruebaSisonPareja(tablero, indice);
+  compruebaSisonPareja(tablero);
 };
 
-const compruebaSiEstamosEnLaPrimeraCarta = (tablero: Tablero): boolean => {
-  return tablero.estadoPartida === "CeroCartasLevantadas";
-};
-
-const compruebaSiEstamosEnLaSegundaCarta = (tablero: Tablero): boolean => {
-  return tablero.estadoPartida === "UnaCartaLevantada";
-};
-
-const compruebaSisonPareja = (tablero: Tablero, indice: number) => {
-  if (
-    tablero.indiceCartaVolteadaA != undefined &&
-    tablero.indiceCartaVolteadaB != undefined
-  ) {
+const compruebaSisonPareja = (tablero: Tablero) => {
+  const indiceA = tablero.indiceCartaVolteadaA;
+  const indiceB = tablero.indiceCartaVolteadaB;
+  if (indiceA !== undefined && indiceB !== undefined) {
     if (tablero.estadoPartida === "DosCartasLevantadas") {
-      sonPareja(
-        tablero.indiceCartaVolteadaA,
-        tablero.indiceCartaVolteadaB,
-        tablero
-      )
-        ? esPareja(tablero)
-        : noEsPareja(tablero, indice);
+      sonPareja(indiceA, indiceB, tablero)
+        ? esPareja(tablero, indiceA, indiceB)
+        : noEsPareja(tablero, indiceA, indiceB);
     }
   }
 };
 
-const esPareja = (tablero: Tablero) => {
-  if (
-    tablero.indiceCartaVolteadaA != undefined &&
-    tablero.indiceCartaVolteadaB != undefined
-  ) {
-    parejaEncontrada(
-      tablero,
-      tablero.indiceCartaVolteadaA,
-      tablero.indiceCartaVolteadaB
-    );
-    const mensaje = document.getElementById("mensaje");
-    if (mensaje && mensaje instanceof HTMLDivElement) {
-      if (esPartidaCompleta(tablero) === true) {
-        mensaje.textContent = "¡¡¡Enhorabuena!!! Has ganado la partida 🥳🥳🥳";
-      }
-    }
+const mostrarMensajeDeHasGanado = () => {
+  const mensaje = document.getElementById("mensaje");
+  if (mensaje && mensaje instanceof HTMLDivElement) {
+    mensaje.textContent = "¡¡¡Enhorabuena!!! Has ganado la partida 🥳🥳🥳";
   }
 };
 
-const noEsPareja = (tablero: Tablero, indice: number) => {
-  if (
-    tablero.indiceCartaVolteadaA != undefined &&
-    tablero.indiceCartaVolteadaB != undefined
-  ) {
-    setTimeout(() => {
-      ocultarImagen(tablero, indice);
-    }, 1000);
-    parejaNoEncontrada(
-      tablero,
-      tablero.indiceCartaVolteadaA,
-      tablero.indiceCartaVolteadaB
-    );
-    muestraIntentos();
+const esPareja = (tablero: Tablero, indiceA: number, indiceB: number) => {
+  parejaEncontrada(tablero, indiceA, indiceB);
+  if (esPartidaCompleta(tablero) === true) {
+    mostrarMensajeDeHasGanado();
   }
+};
+
+const noEsPareja = (tablero: Tablero, indiceA: number, indiceB: number) => {
+  setTimeout(() => {
+    ocultarImagen(tablero);
+  }, 1000);
+  parejaNoEncontrada(tablero, indiceA, indiceB);
+  muestraIntentos();
 };
 
 const mensajeYaEstaDadaLaVuelta = (): void => {

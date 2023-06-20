@@ -86,3 +86,7 @@ const crearTableroInicial = (): Tablero => ({
 });
 
 export let tablero: Tablero = crearTableroInicial();
+
+export let setIntentos = () => {
+  partida.intentos++;
+};

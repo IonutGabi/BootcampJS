@@ -1,4 +1,4 @@
-import { Carta, Tablero, partida } from "./modelo";
+import { Carta, Tablero, setIntentos } from "./modelo";
 
 export const barajarCartas = (cartas: Carta[]): Carta[] => {
   let arrayCopy = [...cartas];
@@ -85,9 +85,7 @@ export const parejaNoEncontrada = (
 };
 
 export const esPartidaCompleta = (tablero: Tablero): boolean =>
-  tablero.cartas.every(
-    (carta) => carta.encontrada === true && carta.estaVuelta === true
-  );
+  tablero.cartas.every((carta) => carta.encontrada && carta.estaVuelta);
 
 export const iniciaPartida = (tablero: Tablero): void => {
   tablero.estadoPartida = "CeroCartasLevantadas";
@@ -98,8 +96,13 @@ export const iniciaPartida = (tablero: Tablero): void => {
   }));
   tablero.cartas = barajarCartas(cartas);
 };
-
-let setIntentos = (): number => {
-  partida.intentos++;
-  return partida.intentos;
+export const compruebaSiEstamosEnLaPrimeraCarta = (
+  tablero: Tablero
+): boolean => {
+  return tablero.estadoPartida === "CeroCartasLevantadas";
+};
+export const compruebaSiEstamosEnLaSegundaCarta = (
+  tablero: Tablero
+): boolean => {
+  return tablero.estadoPartida === "UnaCartaLevantada";
 };
