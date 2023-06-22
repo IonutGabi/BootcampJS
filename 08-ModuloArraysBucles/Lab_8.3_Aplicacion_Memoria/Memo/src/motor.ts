@@ -96,13 +96,3 @@ export const iniciaPartida = (tablero: Tablero): void => {
   }));
   tablero.cartas = barajarCartas(cartas);
 };
-export const compruebaSiEstamosEnLaPrimeraCarta = (
-  tablero: Tablero
-): boolean => {
-  return tablero.estadoPartida === "CeroCartasLevantadas";
-};
-export const compruebaSiEstamosEnLaSegundaCarta = (
-  tablero: Tablero
-): boolean => {
-  return tablero.estadoPartida === "UnaCartaLevantada";
-};

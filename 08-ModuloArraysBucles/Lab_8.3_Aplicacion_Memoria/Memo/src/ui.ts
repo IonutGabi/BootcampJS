@@ -7,8 +7,6 @@ import {
   sonPareja,
   voltearLaCarta,
   iniciaPartida,
-  compruebaSiEstamosEnLaPrimeraCarta,
-  compruebaSiEstamosEnLaSegundaCarta,
 } from "./motor";
 
 const muestraIntentos = () => {
@@ -22,9 +20,26 @@ const laCartaSePuedeVoltear = (indice: number, tablero: Tablero) => {
     ? voltearLaCarta(tablero, indice)
     : mensajeYaEstaDadaLaVuelta();
 };
+const ocultarCartasAlInicio = () => {
+  tablero.cartas.forEach((_, indice) => {
+    const div = document.querySelector(`div[data-indice-array="${indice}"]`);
+    if (div && div instanceof HTMLDivElement) {
+      div.classList.remove("carta-volteada");
+    }
+    const imagen = document.querySelector(
+      `img[data-indice-imagen="${indice}"]`
+    );
+    if (imagen && imagen instanceof HTMLImageElement) {
+      imagen.src = "";
+    }
+  });
+};
 
 const clickBotonEmpezarPartida = () => {
   iniciaPartida(tablero);
+  ocultarCartasAlInicio();
+  ocultarMensajeDeHasGanadoAlInicio();
+  ocultarContandorDeIntentos();
 };
 
 export const agregarEventoBotonIniciarPartida = () => {
@@ -88,8 +103,6 @@ const mostrarCarta = (
   laCartaSePuedeVoltear(indice, tablero);
   mostrarImagen(tablero, indice);
   div.classList.add("carta-volteada");
-  compruebaSiEstamosEnLaPrimeraCarta(tablero);
-  compruebaSiEstamosEnLaSegundaCarta(tablero);
   compruebaSisonPareja(tablero);
 };
 
@@ -134,5 +147,19 @@ const mensajeYaEstaDadaLaVuelta = (): void => {
     setTimeout(() => {
       mensajeError.textContent = "";
     }, 2000);
+  }
+};
+
+const ocultarMensajeDeHasGanadoAlInicio = () => {
+  const mensaje = document.getElementById("mensaje");
+  if (mensaje && mensaje instanceof HTMLDivElement) {
+    mensaje.textContent = "";
+  }
+};
+const ocultarContandorDeIntentos = () => {
+  const contadorDeIntentos = document.getElementById("intentos");
+  if (contadorDeIntentos && contadorDeIntentos instanceof HTMLDivElement) {
+    contadorDeIntentos.innerText = "";
+    partida.intentos = 0;
   }
 };
