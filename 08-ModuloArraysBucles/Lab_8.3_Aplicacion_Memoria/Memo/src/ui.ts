@@ -23,18 +23,32 @@ const laCartaSePuedeVoltear = (indice: number, tablero: Tablero) => {
     : mensajeYaEstaDadaLaVuelta();
 };
 
-export const crearTablero = () => {
+const clickBotonEmpezarPartida = () => {
   iniciaPartida(tablero);
-  iniciarPartida(tablero);
 };
 
-const iniciarPartida = (tablero: Tablero) => {
+export const agregarEventoBotonIniciarPartida = () => {
+  const btnEmpezarPartida = document.getElementById("boton");
+  btnEmpezarPartida && btnEmpezarPartida instanceof HTMLButtonElement
+    ? btnEmpezarPartida.addEventListener("click", () =>
+        clickBotonEmpezarPartida()
+      )
+    : console.error(
+        "btnEmpezarPartida: No se ha encontrado el elemento id buton"
+      );
+};
+
+export const crearTablero = () => {
   const tableroContenedor = document.getElementById("tablero");
   if (tableroContenedor && tableroContenedor instanceof HTMLDivElement) {
     tablero.cartas.forEach((_, indice) => {
       const div = document.querySelector(`div[data-indice-array="${indice}"]`);
       if (div && div instanceof HTMLDivElement) {
-        div.addEventListener("click", () => mostrarCarta(tablero, indice, div));
+        div.addEventListener("click", () => {
+          if (tablero.estadoPartida !== "PartidaNoIniciada") {
+            mostrarCarta(tablero, indice, div);
+          }
+        });
       }
     });
   }

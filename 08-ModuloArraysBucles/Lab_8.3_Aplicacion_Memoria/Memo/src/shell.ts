@@ -1,15 +1,6 @@
-import { crearTablero } from "./ui";
+import { crearTablero, agregarEventoBotonIniciarPartida } from "./ui";
 
-const empiezaPartida = () => {
+document.addEventListener("DOMContentLoaded", () => {
   crearTablero();
-};
-
-const iniciarPartida = () => {
-  const btnEmpezarPartida = document.getElementById("boton");
-  btnEmpezarPartida && btnEmpezarPartida instanceof HTMLButtonElement
-    ? btnEmpezarPartida.addEventListener("click", () => empiezaPartida())
-    : console.error(
-        "btnEmpezarPartida: No se ha encontrado el elemento id buton"
-      );
-};
-document.addEventListener("DOMContentLoaded", () => iniciarPartida());
+  agregarEventoBotonIniciarPartida();
+});
