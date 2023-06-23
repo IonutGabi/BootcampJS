@@ -20,18 +20,19 @@ const laCartaSePuedeVoltear = (indice: number, tablero: Tablero) => {
     ? voltearLaCarta(tablero, indice)
     : mensajeYaEstaDadaLaVuelta();
 };
+const ponerLasCartasComoAlInicio = (indice: number) => {
+  const imagen = document.querySelector(`img[data-indice-imagen="${indice}"]`);
+  if (imagen && imagen instanceof HTMLImageElement) {
+    imagen.src = "";
+  }
+  const div = document.querySelector(`div[data-indice-array="${indice}"]`);
+  if (div && div instanceof HTMLDivElement) {
+    div.classList.remove("carta-volteada");
+  }
+};
 const ocultarCartasAlInicio = () => {
   tablero.cartas.forEach((_, indice) => {
-    const div = document.querySelector(`div[data-indice-array="${indice}"]`);
-    if (div && div instanceof HTMLDivElement) {
-      div.classList.remove("carta-volteada");
-    }
-    const imagen = document.querySelector(
-      `img[data-indice-imagen="${indice}"]`
-    );
-    if (imagen && imagen instanceof HTMLImageElement) {
-      imagen.src = "";
-    }
+    ponerLasCartasComoAlInicio(indice);
   });
 };
 
@@ -78,16 +79,7 @@ const mostrarImagen = (tablero: Tablero, indice: number) => {
 
 const volverAVoltearLaCarta = (tablero: Tablero, indice: number) => {
   if (!tablero.cartas[indice].encontrada) {
-    const imagen = document.querySelector(
-      `img[data-indice-imagen="${indice}"]`
-    );
-    if (imagen && imagen instanceof HTMLImageElement) {
-      imagen.src = "";
-    }
-    const div = document.querySelector(`div[data-indice-array="${indice}"]`);
-    if (div && div instanceof HTMLDivElement) {
-      div.classList.remove("carta-volteada");
-    }
+    ponerLasCartasComoAlInicio(indice);
   }
 };
 const ocultarImagen = (tablero: Tablero) => {
@@ -160,6 +152,5 @@ const ocultarContandorDeIntentos = () => {
   const contadorDeIntentos = document.getElementById("intentos");
   if (contadorDeIntentos && contadorDeIntentos instanceof HTMLDivElement) {
     contadorDeIntentos.innerText = "";
-    partida.intentos = 0;
   }
 };

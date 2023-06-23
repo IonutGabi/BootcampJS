@@ -1,4 +1,4 @@
-import { Carta, Tablero, setIntentos } from "./modelo";
+import { Carta, Tablero, setIntentos, partida } from "./modelo";
 
 export const barajarCartas = (cartas: Carta[]): Carta[] => {
   let arrayCopy = [...cartas];
@@ -94,5 +94,6 @@ export const iniciaPartida = (tablero: Tablero): void => {
     estaVuelta: false,
     encontrada: false,
   }));
+  partida.intentos = 0;
   tablero.cartas = barajarCartas(cartas);
 };
