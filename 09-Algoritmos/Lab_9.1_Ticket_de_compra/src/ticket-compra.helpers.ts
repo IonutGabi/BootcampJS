@@ -33,6 +33,41 @@ const tipoIvaAAplicar = (tipoIva: TipoIva): number => {
   }
 };
 
+const calculoDelIva = (
+  lineasTicket: LineaTicket[],
+  ticket: LineaTicket,
+  acc: number
+) => {
+  return (
+    (calculaSubTotal(lineasTicket) * tipoIvaAAplicar(ticket.producto.tipoIva)) /
+      100 +
+    acc
+  );
+};
+
+const devuelveLosValoresDeLaInterfazTotalPorTipoDeIva = (
+  ticket: LineaTicket
+): totalPorTipoIva => {
+  return {
+    tipoIva: ticket.producto.tipoIva,
+    cuantia: tipoIvaAAplicar(ticket.producto.tipoIva),
+  };
+};
+
+const devuelveLosValoresDeLaInterfazResultadoLineaTicket = (
+  ticket: LineaTicket,
+  subTotal: number,
+  totalIva: number
+): ResultadoLineaTicket => {
+  return {
+    nombre: ticket.producto.nombre,
+    cantidad: ticket.cantidad,
+    precioSinIva: subTotal,
+    tipoIva: ticket.producto.tipoIva,
+    precioConIva: Number((subTotal + totalIva).toFixed(2)),
+  };
+};
+
 export const calculaTotalDelProducto = (
   lineasTicket: LineaTicket[]
 ): ResultadoTotalTicket => {
@@ -41,11 +76,7 @@ export const calculaTotalDelProducto = (
   }
   const subTotal = calculaSubTotal(lineasTicket);
   const totalIva = lineasTicket.reduce(
-    (acumulador, ticket) =>
-      (calculaSubTotal(lineasTicket) *
-        tipoIvaAAplicar(ticket.producto.tipoIva)) /
-        100 +
-      acumulador,
+    (acumulador, ticket) => calculoDelIva(lineasTicket, ticket, acumulador),
     0
   );
   return {
@@ -64,11 +95,7 @@ export const resultadoTicket = (
 
   const subTotal = calculaSubTotal(lineasTicket);
   const totalIva = lineasTicket.reduce(
-    (acumulador, ticket) =>
-      (calculaSubTotal(lineasTicket) *
-        tipoIvaAAplicar(ticket.producto.tipoIva)) /
-        100 +
-      acumulador,
+    (acumulador, ticket) => calculoDelIva(lineasTicket, ticket, acumulador),
     0
   );
   return devuelveArrayResultadoTicket(lineasTicket, subTotal, totalIva);
@@ -78,10 +105,9 @@ export const desgloseIva = (lineasTicket: LineaTicket[]): totalPorTipoIva[] => {
   if (!lineasTicket) {
     throw new Error("Los parámetros de salida no son correctos");
   }
-  return lineasTicket.map((ticket) => ({
-    tipoIva: ticket.producto.tipoIva,
-    cuantia: tipoIvaAAplicar(ticket.producto.tipoIva),
-  }));
+  return lineasTicket.map((ticket) =>
+    devuelveLosValoresDeLaInterfazTotalPorTipoDeIva(ticket)
+  );
 };
 
 const devuelveArrayResultadoTicket = (
@@ -89,11 +115,11 @@ const devuelveArrayResultadoTicket = (
   subTotal: number,
   totalIva: number
 ): ResultadoLineaTicket[] => {
-  return lineasTicket.map((ticket) => ({
-    nombre: ticket.producto.nombre,
-    cantidad: ticket.cantidad,
-    precioSinIva: subTotal,
-    tipoIva: ticket.producto.tipoIva,
-    precioConIva: Number((subTotal + totalIva).toFixed(2)),
-  }));
+  return lineasTicket.map((ticket) =>
+    devuelveLosValoresDeLaInterfazResultadoLineaTicket(
+      ticket,
+      subTotal,
+      totalIva
+    )
+  );
 };

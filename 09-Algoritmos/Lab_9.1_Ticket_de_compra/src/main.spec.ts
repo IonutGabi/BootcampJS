@@ -37,30 +37,28 @@ describe("calculaTicket", () => {
     const resultado = calculaTicket(lineasTicket);
     // Assert
 
-    const resultadoEsperado: TicketFinal[] = [
-      {
-        lineas: [
-          {
-            nombre: "Legumbres",
-            cantidad: 2,
-            precioSinIva: 4,
-            tipoIva: "general",
-            precioConIva: 4.84,
-          },
-        ],
-        total: {
-          totalSinIva: 4,
-          totalConIva: 4.84,
-          totalIva: 0.84,
+    const resultadoEsperado: TicketFinal = {
+      lineas: [
+        {
+          nombre: "Legumbres",
+          cantidad: 2,
+          precioSinIva: 4,
+          tipoIva: "general",
+          precioConIva: 4.84,
         },
-        desgloseIva: [
-          {
-            tipoIva: "general",
-            cuantia: 21,
-          },
-        ],
+      ],
+      total: {
+        totalSinIva: 4,
+        totalConIva: 4.84,
+        totalIva: 0.84,
       },
-    ];
+      desgloseIva: [
+        {
+          tipoIva: "general",
+          cuantia: 21,
+        },
+      ],
+    };
     expect(resultado).toEqual(resultadoEsperado);
   });
 
@@ -87,41 +85,39 @@ describe("calculaTicket", () => {
     // Act
     const resultado = calculaTicket(lineasTicket);
     // Assert
-    const resultadoEsperado: TicketFinal[] = [
-      {
-        lineas: [
-          {
-            nombre: "Leche",
-            cantidad: 6,
-            precioSinIva: 11,
-            tipoIva: "superreducidoC",
-            precioConIva: 11.55,
-          },
-          {
-            nombre: "Lasaña",
-            cantidad: 1,
-            precioSinIva: 11,
-            tipoIva: "superreducidoA",
-            precioConIva: 11.55,
-          },
-        ],
-        total: {
-          totalSinIva: 11,
-          totalConIva: 11.55,
-          totalIva: 0.55,
+    const resultadoEsperado: TicketFinal = {
+      lineas: [
+        {
+          nombre: "Leche",
+          cantidad: 6,
+          precioSinIva: 11,
+          tipoIva: "superreducidoC",
+          precioConIva: 11.55,
         },
-        desgloseIva: [
-          {
-            tipoIva: "superreducidoC",
-            cuantia: 0,
-          },
-          {
-            tipoIva: "superreducidoA",
-            cuantia: 5,
-          },
-        ],
+        {
+          nombre: "Lasaña",
+          cantidad: 1,
+          precioSinIva: 11,
+          tipoIva: "superreducidoA",
+          precioConIva: 11.55,
+        },
+      ],
+      total: {
+        totalSinIva: 11,
+        totalConIva: 11.55,
+        totalIva: 0.55,
       },
-    ];
+      desgloseIva: [
+        {
+          tipoIva: "superreducidoC",
+          cuantia: 0,
+        },
+        {
+          tipoIva: "superreducidoA",
+          cuantia: 5,
+        },
+      ],
+    };
     expect(resultado).toEqual(resultadoEsperado);
   });
 });
