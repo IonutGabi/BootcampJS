@@ -28,7 +28,7 @@ describe("validarClave", () => {
     );
   });
 
-  it("deberia devolver el objeto con el error que corresponda", () => {
+  it("deberia devolver un error si la clave no tiene mayúsculas o minúsculas", () => {
     // Arrange
     const nombreUsuario: string = "MariaRodriguez86";
     const clave: string = "12345";
@@ -44,7 +44,7 @@ describe("validarClave", () => {
   });
 });
 
-it("deberia devolver el objeto con el error que corresponda", () => {
+it("deberia devolver un error si la clave no tiene números", () => {
   // Arrange
   const nombreDeUsuario: string = "MarioMartinez12";
   const commonPasswords: string[] = ["hello123", "welcome", "sunshine1"];
@@ -59,7 +59,7 @@ it("deberia devolver el objeto con el error que corresponda", () => {
   expect(resultado).toEqual(resultadoEsperado);
 });
 
-it("deberia devolver un objeto con el error que corresponda", () => {
+it("deberia devolver un error si la clave no tiene caracteres especiales", () => {
   // Arrange
   const nombreUsuario: string = "Lucas72";
   const clave: string = "Reddit98";
@@ -74,7 +74,7 @@ it("deberia devolver un objeto con el error que corresponda", () => {
   expect(resultado).toEqual(resultadoEsperado);
 });
 
-it("deberia devolver el objeto con el error que corresponde", () => {
+it("deberia devolver un error si la clave no tiene una longitud mayor o igual a 8", () => {
   // Arrange
   const nombreUsuario: string = "Paula56";
   const clave: string = "Admin1@";
@@ -89,7 +89,7 @@ it("deberia devolver el objeto con el error que corresponde", () => {
   expect(resultado).toEqual(resultadoEsperado);
 });
 
-it("deberia devolver el objeto con el error que corresponda", () => {
+it("deberia devolver un error si la clave contiene el nombre de usuario", () => {
   // Arrange
   const nombreUsuario: string = "Correcaminos72@";
   const clave: string = "Correcaminos72@";
@@ -104,7 +104,7 @@ it("deberia devolver el objeto con el error que corresponda", () => {
   expect(resultado).toEqual(resultadoEsperado);
 });
 
-it("deberia devolver el objeto con el error que corresponda", () => {
+it("deberia devolver un error si la clave contiene palabras comunes", () => {
   // Arrange
   const nombreUsuario: string = "MariaRodriguez98";
   const clave: string = "Abc123@456";

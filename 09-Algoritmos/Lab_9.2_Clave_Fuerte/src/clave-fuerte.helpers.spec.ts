@@ -287,6 +287,44 @@ describe("tieneNombreUsuario", () => {
     expect(resultado).toEqual(resultadoEsperado);
   });
 
+  it("deberia devolver el objeto con el error si la clave es el nombre de usuario", () => {
+    // Arrange
+    const nombreUsuario: string = "gabi";
+    const clave: string = "gabi123";
+    // Act
+    const resultado = tieneNombreUsuario(nombreUsuario, clave);
+    // Assert
+    const resultadoEsperado: ValidacionClave = {
+      esValida: false,
+      error: "La clave no debe tener el nombre del usuario.",
+    };
+    expect(resultado).toEqual(resultadoEsperado);
+  });
+
+  it("deberia devolver un throw error si el nombre de usuario es undefined", () => {
+    // Arrange
+    const nombreUsuario: any = undefined;
+    const clave: string = "usuario";
+    // Act
+    const resultado = () => tieneNombreUsuario(nombreUsuario, clave);
+    // Assert
+    expect(resultado).toThrowError(
+      "Los parámetros que se le han pasado a la función no son correctos"
+    );
+  });
+
+  it("deberia devolver un throw error si el nombre de usuario es null", () => {
+    // Arrange
+    const nombreUsuario: any = null;
+    const clave: string = "usuario";
+    // Act
+    const resultado = () => tieneNombreUsuario(nombreUsuario, clave);
+    // Assert
+    expect(resultado).toThrowError(
+      "Los parámetros que se le han pasado a la función no son correctos"
+    );
+  });
+
   it("deberia devolver el objeto con la propiedad esValida a true", () => {
     // Arrange
     const nombreUsuario: string = "MariaRodriguez14";
@@ -356,6 +394,30 @@ describe("tienePalabrasComunes", () => {
       error: "La clave no debe de contener palabras comunes",
     };
     expect(resultado).toEqual(resultadoEsperado);
+  });
+
+  it("deberia devolver un throw error si el array commonPasswords es undefined", () => {
+    // Arrange
+    const commonPasswords: any = undefined;
+    const clave: string = "iloveyou";
+    // Act
+    const resultado = () => tienePalabrasComunes(clave, commonPasswords);
+    // Assert
+    expect(resultado).toThrowError(
+      "Los parámetros que se le han pasado a la función no son correctos"
+    );
+  });
+
+  it("deberia devolver un throw error si el array commonPasswords es null", () => {
+    // Arrange
+    const commonPasswords: any = null;
+    const clave: string = "iloveyou";
+    // Act
+    const resultado = () => tienePalabrasComunes(clave, commonPasswords);
+    // Assert
+    expect(resultado).toThrowError(
+      "Los parámetros que se le han pasado a la función no son correctos"
+    );
   });
 
   it("deberia devolver el objeto con la propiedad esValida a true", () => {

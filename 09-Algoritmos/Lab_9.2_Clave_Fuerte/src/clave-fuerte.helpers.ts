@@ -1,4 +1,8 @@
-import { ValidacionClave } from "./modelo";
+import {
+  ValidacionClave,
+  ValidacionCorrecta,
+  validacionErronea,
+} from "./modelo";
 
 import {
   listaLetrasMayusculas,
@@ -15,11 +19,8 @@ export const tieneMayusculasYMinusculas = (clave: string): ValidacionClave => {
     );
   }
   return tieneLetrasMayusculas(clave) && tieneLetrasMinusculas(clave)
-    ? { esValida: true }
-    : {
-        esValida: false,
-        error: "La clave debe de tener mayúsculas y minúsculas",
-      };
+    ? ValidacionCorrecta()
+    : validacionErronea("La clave debe de tener mayúsculas y minúsculas");
 };
 export const tieneNumeros = (clave: string): ValidacionClave => {
   if (!clave) {
@@ -28,8 +29,8 @@ export const tieneNumeros = (clave: string): ValidacionClave => {
     );
   }
   return compruebaSiTieneNumeros(clave, numeros)
-    ? { esValida: true }
-    : { esValida: false, error: "La clave debe de tener números" };
+    ? ValidacionCorrecta()
+    : validacionErronea("La clave debe de tener números");
 };
 
 export const tieneCaracteresEspeciales = (clave: string): ValidacionClave => {
@@ -39,11 +40,8 @@ export const tieneCaracteresEspeciales = (clave: string): ValidacionClave => {
     );
   }
   return compruebaSiTieneCaracteresEspeciales(clave)
-    ? { esValida: true }
-    : {
-        esValida: false,
-        error: "La clave debe de tener caracteres especiales.",
-      };
+    ? ValidacionCorrecta()
+    : validacionErronea("La clave debe de tener caracteres especiales.");
 };
 
 export const tieneLongitudMinima = (clave: string): ValidacionClave => {
@@ -53,11 +51,10 @@ export const tieneLongitudMinima = (clave: string): ValidacionClave => {
     );
   }
   return clave.length >= 8
-    ? { esValida: true }
-    : {
-        esValida: false,
-        error: "La clave debe de tener una longitud mínima de 8 caracteres",
-      };
+    ? ValidacionCorrecta()
+    : validacionErronea(
+        "La clave debe de tener una longitud mínima de 8 caracteres"
+      );
 };
 
 export const tieneNombreUsuario = (
@@ -70,11 +67,8 @@ export const tieneNombreUsuario = (
     );
   }
   return compruebaSiTieneNombreUsuarioEnLaPassword(nombreUsuario, clave)
-    ? {
-        esValida: false,
-        error: "La clave no debe tener el nombre del usuario.",
-      }
-    : { esValida: true };
+    ? validacionErronea("La clave no debe tener el nombre del usuario.")
+    : ValidacionCorrecta();
 };
 
 export const tienePalabrasComunes = (
@@ -87,11 +81,8 @@ export const tienePalabrasComunes = (
     );
   }
   return compruebaSiTienePalabrasComunes(clave)
-    ? {
-        esValida: false,
-        error: "La clave no debe de contener palabras comunes",
-      }
-    : { esValida: true };
+    ? validacionErronea("La clave no debe de contener palabras comunes")
+    : ValidacionCorrecta();
 };
 const tieneLetrasMayusculas = (clave: string): boolean => {
   return listaLetrasMayusculas.some((letra: string) => clave.includes(letra));
