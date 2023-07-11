@@ -109,8 +109,7 @@ const compruebaSiTieneNombreUsuarioEnLaPassword = (
   nombreUsuario: string,
   clave: string
 ): boolean => {
-  const nombreUsuarioTransformado = transformarClaveAMinuscula(nombreUsuario);
-  return clave.includes(nombreUsuarioTransformado);
+  return clave.includes(nombreUsuario);
 };
 
 const compruebaSiTienePalabrasComunes = (clave: string): boolean => {
