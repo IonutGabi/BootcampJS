@@ -84,31 +84,25 @@ export const tienePalabrasComunes = (
     ? validacionErronea("La clave no debe de contener palabras comunes")
     : ValidacionCorrecta();
 };
-const tieneLetrasMayusculas = (clave: string): boolean => {
-  return listaLetrasMayusculas.some((letra: string) => clave.includes(letra));
-};
-const tieneLetrasMinusculas = (clave: string): boolean => {
-  return listaLetrasMinusculas.some((letra: string) => clave.includes(letra));
-};
+const tieneLetrasMayusculas = (clave: string): boolean =>
+  listaLetrasMayusculas.some((letra: string) => clave.includes(letra));
+const tieneLetrasMinusculas = (clave: string): boolean =>
+  listaLetrasMinusculas.some((letra: string) => clave.includes(letra));
 
-const transformarNumerosAString = (numeros: number[]): string[] => {
-  return numeros.map((numero) => numero.toString());
-};
+const transformarNumerosAString = (numeros: number[]): string[] =>
+  numeros.map((numero) => numero.toString());
 
-const compruebaSiTieneNumeros = (clave: string, numeros: number[]): boolean => {
-  return transformarNumerosAString(numeros).some((numero) =>
-    clave.includes(numero)
-  );
-};
+const compruebaSiTieneNumeros = (clave: string, numeros: number[]): boolean =>
+  transformarNumerosAString(numeros).some((numero) => clave.includes(numero));
 
-const compruebaSiTieneCaracteresEspeciales = (clave: string): boolean => {
-  return caracteresEspeciales.some((caracter) => clave.includes(caracter));
-};
+const compruebaSiTieneCaracteresEspeciales = (clave: string): boolean =>
+  caracteresEspeciales.some((caracter) => clave.includes(caracter));
 
 const compruebaSiTieneNombreUsuarioEnLaPassword = (
   nombreUsuario: string,
   clave: string
 ): boolean => {
+  transformarClaveAMinuscula(nombreUsuario);
   return clave.includes(nombreUsuario);
 };
 
@@ -119,6 +113,5 @@ const compruebaSiTienePalabrasComunes = (clave: string): boolean => {
   );
 };
 
-const transformarClaveAMinuscula = (clave: string): string => {
-  return clave.toLowerCase();
-};
+const transformarClaveAMinuscula = (clave: string): string =>
+  clave.toLowerCase();
