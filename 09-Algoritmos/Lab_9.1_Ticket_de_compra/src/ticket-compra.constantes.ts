@@ -1,4 +1,4 @@
-import { LineaTicket } from "./modelo";
+import { LineaTicket, TipoIva } from "./modelo";
 export const productos: LineaTicket[] = [
   {
     producto: {
@@ -32,4 +32,13 @@ export const productos: LineaTicket[] = [
     },
     cantidad: 1,
   },
+];
+
+export const tipoDeIva: TipoIva[] = [
+  "general",
+  "reducido",
+  "superreducidoA",
+  "superreducidoB",
+  "superreducidoC",
+  "sinIVa",
 ];

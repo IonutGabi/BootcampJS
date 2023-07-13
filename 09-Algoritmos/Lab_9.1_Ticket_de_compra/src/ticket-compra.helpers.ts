@@ -5,6 +5,7 @@ import {
   ResultadoLineaTicket,
   totalPorTipoIva,
 } from "./modelo";
+import { tipoDeIva } from "./ticket-compra.constantes";
 
 const calculaSubTotal = (lineasTicket: LineaTicket[]): number => {
   if (!lineasTicket) {
@@ -123,3 +124,17 @@ const devuelveArrayResultadoTicket = (
     )
   );
 };
+
+const devuelveElTipoDeIvaDeCadaProducto = (
+  lineasTicket: LineaTicket,
+  tipoDeIva: TipoIva[]
+) => tipoDeIva.filter((iva) => iva === lineasTicket.producto.tipoIva);
+
+const agregaTipoDeIvaAlProducto = (lineasTicket: LineaTicket[]) =>
+  lineasTicket.map((ticket) => ({
+    ...ticket,
+    producto: (ticket.producto.tipoIva = devuelveElTipoDeIvaDeCadaProducto(
+      ticket,
+      tipoDeIva
+    )),
+  }));
