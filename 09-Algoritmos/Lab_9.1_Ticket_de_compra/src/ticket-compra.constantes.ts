@@ -34,7 +34,7 @@ export const productos: LineaTicket[] = [
   },
 ];
 
-export const tipoDeIva: TipoIva[] = [
+export const tiposDeIva: TipoIva[] = [
   "general",
   "reducido",
   "superreducidoA",

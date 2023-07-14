@@ -5,7 +5,6 @@ import {
   ResultadoLineaTicket,
   totalPorTipoIva,
 } from "./modelo";
-import { tipoDeIva } from "./ticket-compra.constantes";
 
 const calculaSubTotal = (lineasTicket: LineaTicket[]): number => {
   if (!lineasTicket) {
@@ -126,15 +125,44 @@ const devuelveArrayResultadoTicket = (
 };
 
 const devuelveElTipoDeIvaDeCadaProducto = (
-  lineasTicket: LineaTicket,
-  tipoDeIva: TipoIva[]
-) => tipoDeIva.filter((iva) => iva === lineasTicket.producto.tipoIva);
+  lineasTicket: LineaTicket[],
+  tipoDeIva: TipoIva
+) => lineasTicket.filter((ticket) => (ticket.producto.tipoIva = tipoDeIva));
 
-const agregaTipoDeIvaAlProducto = (lineasTicket: LineaTicket[]) =>
-  lineasTicket.map((ticket) => ({
-    ...ticket,
-    producto: (ticket.producto.tipoIva = devuelveElTipoDeIvaDeCadaProducto(
-      ticket,
-      tipoDeIva
-    )),
-  }));
+export const agregaTipoDeIvaAlProducto = (
+  lineasTicket: LineaTicket[],
+  tiposDeIva: TipoIva[]
+): totalPorTipoIva[] => {
+  return tiposDeIva
+    .map((tipoDeIva) => mapeaTotalDeIva(lineasTicket, tipoDeIva))
+    .filter((totalPorTipoIva) =>
+      existeElTipoDeIvaDelProducto(lineasTicket, totalPorTipoIva)
+    );
+};
+
+const mapeaTotalDeIva = (
+  lineasTicket: LineaTicket[],
+  tipoDeIva: TipoIva
+): totalPorTipoIva => {
+  const productosConIvaFiltrado = devuelveElTipoDeIvaDeCadaProducto(
+    lineasTicket,
+    tipoDeIva
+  );
+
+  return {
+    tipoIva: tipoDeIva,
+    cuantia: productosConIvaFiltrado.reduce(
+      (acumulador, producto) =>
+        calculoDelIva(lineasTicket, producto, acumulador),
+      0
+    ),
+  };
+};
+
+const existeElTipoDeIvaDelProducto = (
+  lineasTicket: LineaTicket[],
+  tiposDeIva: TipoIva[]
+): boolean =>
+  tiposDeIva.some((tipoDeIva) =>
+    devuelveElTipoDeIvaDeCadaProducto(lineasTicket, tipoDeIva)
+  );
