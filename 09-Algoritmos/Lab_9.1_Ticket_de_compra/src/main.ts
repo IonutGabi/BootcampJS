@@ -1,8 +1,9 @@
 import { LineaTicket, TicketFinal } from "./modelo";
+import { tiposDeIva } from "./ticket-compra.constantes";
 import {
   resultadoTicket,
   calculaTotalDelProducto,
-  desgloseIva,
+  agregaTipoDeIvaAlProducto,
 } from "./ticket-compra.helpers";
 
 export const calculaTicket = (lineasTicket: LineaTicket[]): TicketFinal => {
@@ -12,6 +13,6 @@ export const calculaTicket = (lineasTicket: LineaTicket[]): TicketFinal => {
   return {
     lineas: resultadoTicket(lineasTicket),
     total: calculaTotalDelProducto(lineasTicket),
-    desgloseIva: desgloseIva(lineasTicket),
+    desgloseIva: agregaTipoDeIvaAlProducto(lineasTicket, tiposDeIva),
   };
 };

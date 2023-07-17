@@ -55,7 +55,7 @@ describe("calculaTicket", () => {
       desgloseIva: [
         {
           tipoIva: "general",
-          cuantia: 21,
+          cuantia: 0.84,
         },
       ],
     };
@@ -109,12 +109,12 @@ describe("calculaTicket", () => {
       },
       desgloseIva: [
         {
-          tipoIva: "superreducidoC",
-          cuantia: 0,
+          tipoIva: "superreducidoA",
+          cuantia: 0.55,
         },
         {
-          tipoIva: "superreducidoA",
-          cuantia: 5,
+          tipoIva: "superreducidoC",
+          cuantia: 0,
         },
       ],
     };

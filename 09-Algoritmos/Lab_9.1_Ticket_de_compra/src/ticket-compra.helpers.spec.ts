@@ -3,11 +3,12 @@ import {
   ResultadoTotalTicket,
   ResultadoLineaTicket,
   totalPorTipoIva,
+  TipoIva,
 } from "./modelo";
 import {
   calculaTotalDelProducto,
   resultadoTicket,
-  desgloseIva,
+  agregaTipoDeIvaAlProducto,
 } from "./ticket-compra.helpers";
 
 describe("calculaTotalDelProducto", () => {
@@ -179,25 +180,61 @@ describe("resultadoTicket", () => {
   });
 });
 
-describe("desgloseIva", () => {
+describe("agregaTipoDeIvaAlProducto", () => {
   it("deberia devolver un throw error si la salida es undefined", () => {
     // Arrange
     const lineasTicket: any = undefined;
+    const tiposDeIva: any = undefined;
     // Assert
-    const resultado = () => desgloseIva(lineasTicket);
+    const resultado = () => agregaTipoDeIvaAlProducto(lineasTicket, tiposDeIva);
     // Act
     expect(resultado).toThrowError("Los parámetros de salida no son correctos");
   });
   it("deberia devolver un throw error si la salida es null", () => {
     // Arrange
     const lineasTicket: any = null;
+    const tiposDeIva: any = null;
     // Act
-    const resultado = () => desgloseIva(lineasTicket);
+    const resultado = () => agregaTipoDeIvaAlProducto(lineasTicket, tiposDeIva);
     // Assert
     expect(resultado).toThrowError("Los parámetros de salida no son correctos");
   });
 
   it("deberia devolver el total por iva del ticket", () => {
+    // Arrange
+    const lineasTicket: LineaTicket[] = [
+      {
+        producto: {
+          nombre: "Legumbres",
+          precio: 2,
+          tipoIva: "general",
+        },
+        cantidad: 2,
+      },
+      {
+        producto: {
+          nombre: "Perfume",
+          precio: 20,
+          tipoIva: "general",
+        },
+        cantidad: 3,
+      },
+    ];
+
+    const tiposDeIva: TipoIva[] = ["general"];
+    // Act
+    const resultado = agregaTipoDeIvaAlProducto(lineasTicket, tiposDeIva);
+    // Assert
+    const resultadoEsperado: totalPorTipoIva[] = [
+      {
+        tipoIva: "general",
+        cuantia: 26.88,
+      },
+    ];
+    expect(resultado).toEqual(resultadoEsperado);
+  });
+
+  it("Debería devolver el total de iva del ticket", () => {
     // Arrange
     const lineasTicket: LineaTicket[] = [
       {
@@ -217,17 +254,43 @@ describe("desgloseIva", () => {
         cantidad: 1,
       },
     ];
+    const tiposDeIva: TipoIva[] = ["general", "superreducidoA"];
     // Act
-    const resultado = desgloseIva(lineasTicket);
+    const resultado = agregaTipoDeIvaAlProducto(lineasTicket, tiposDeIva);
     // Assert
     const resultadoEsperado: totalPorTipoIva[] = [
       {
         tipoIva: "general",
-        cuantia: 21,
+        cuantia: 1.89,
       },
       {
         tipoIva: "superreducidoA",
-        cuantia: 5,
+        cuantia: 0.45,
+      },
+    ];
+    expect(resultado).toEqual(resultadoEsperado);
+  });
+
+  it("Deberia devolver el total de iva del ticket", () => {
+    // Arrange
+    const lineasTicket: LineaTicket[] = [
+      {
+        producto: {
+          nombre: "Perfume",
+          precio: 20,
+          tipoIva: "general",
+        },
+        cantidad: 3,
+      },
+    ];
+    const tiposDeIva: TipoIva[] = ["general"];
+    // Act
+    const resultado = agregaTipoDeIvaAlProducto(lineasTicket, tiposDeIva);
+    // Assert
+    const resultadoEsperado: totalPorTipoIva[] = [
+      {
+        tipoIva: "general",
+        cuantia: 12.6,
       },
     ];
     expect(resultado).toEqual(resultadoEsperado);

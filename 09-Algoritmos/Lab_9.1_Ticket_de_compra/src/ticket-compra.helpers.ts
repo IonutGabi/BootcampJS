@@ -45,15 +45,6 @@ const calculoDelIva = (
   );
 };
 
-const devuelveLosValoresDeLaInterfazTotalPorTipoDeIva = (
-  ticket: LineaTicket
-): totalPorTipoIva => {
-  return {
-    tipoIva: ticket.producto.tipoIva,
-    cuantia: tipoIvaAAplicar(ticket.producto.tipoIva),
-  };
-};
-
 const devuelveLosValoresDeLaInterfazResultadoLineaTicket = (
   ticket: LineaTicket,
   subTotal: number,
@@ -101,15 +92,6 @@ export const resultadoTicket = (
   return devuelveArrayResultadoTicket(lineasTicket, subTotal, totalIva);
 };
 
-export const desgloseIva = (lineasTicket: LineaTicket[]): totalPorTipoIva[] => {
-  if (!lineasTicket) {
-    throw new Error("Los parámetros de salida no son correctos");
-  }
-  return lineasTicket.map((ticket) =>
-    devuelveLosValoresDeLaInterfazTotalPorTipoDeIva(ticket)
-  );
-};
-
 const devuelveArrayResultadoTicket = (
   lineasTicket: LineaTicket[],
   subTotal: number,
@@ -127,12 +109,15 @@ const devuelveArrayResultadoTicket = (
 const devuelveElTipoDeIvaDeCadaProducto = (
   lineasTicket: LineaTicket[],
   tipoDeIva: TipoIva
-) => lineasTicket.filter((ticket) => (ticket.producto.tipoIva = tipoDeIva));
+) => lineasTicket.filter((ticket) => ticket.producto.tipoIva === tipoDeIva);
 
 export const agregaTipoDeIvaAlProducto = (
   lineasTicket: LineaTicket[],
   tiposDeIva: TipoIva[]
 ): totalPorTipoIva[] => {
+  if (!lineasTicket || !tiposDeIva) {
+    throw new Error("Los parámetros de salida no son correctos");
+  }
   return tiposDeIva
     .map((tipoDeIva) => mapeaTotalDeIva(lineasTicket, tipoDeIva))
     .filter((totalPorTipoIva) =>
@@ -161,8 +146,8 @@ const mapeaTotalDeIva = (
 
 const existeElTipoDeIvaDelProducto = (
   lineasTicket: LineaTicket[],
-  tiposDeIva: TipoIva[]
+  totalPorTipoIva: totalPorTipoIva
 ): boolean =>
-  tiposDeIva.some((tipoDeIva) =>
-    devuelveElTipoDeIvaDeCadaProducto(lineasTicket, tipoDeIva)
+  lineasTicket.some(
+    (ticket) => ticket.producto.tipoIva === totalPorTipoIva.tipoIva
   );
