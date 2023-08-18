@@ -1,12 +1,14 @@
 import { InformacionDelPatron } from "./main.model";
+import { estaBienFormadoElIban } from "./validacionIban";
+import { validateIBAN } from "ibantools";
 
-export const crearElementoParrafo = (texto: string): HTMLParagraphElement => {
+const crearElementoParrafo = (texto: string): HTMLParagraphElement => {
   const parrafo = document.createElement("p");
   parrafo.textContent = texto;
   return parrafo;
 };
 
-export const obtenerValorCampo = (campo: string): string => {
+const obtenerValorCampo = (campo: string): string => {
   const elementoCampo = document.querySelector(`#${campo}`);
   if (elementoCampo && elementoCampo instanceof HTMLInputElement) {
     return elementoCampo.value;
@@ -15,9 +17,56 @@ export const obtenerValorCampo = (campo: string): string => {
   }
 };
 
-export const extraerInformacionBanco = (
-  value: string
-): InformacionDelPatron => {
+const pillaElContenedorPrincipal = (idContenedor: string): HTMLDivElement => {
+  const elementoIdContenedor = document.querySelector(`#${idContenedor}`);
+  if (elementoIdContenedor && elementoIdContenedor instanceof HTMLDivElement) {
+    return elementoIdContenedor;
+  } else {
+    throw new Error("No se ha encontrado el elemento contenedor");
+  }
+};
+
+export const pintarMensajeIbanEstaBienFormado = () => {
+  const contenedor = pillaElContenedorPrincipal("contenedor");
+  const valorCampo = obtenerValorCampo("validar");
+  const IbanBienFormado = estaBienFormadoElIban(valorCampo);
+  if (IbanBienFormado) {
+    const parrafo = crearElementoParrafo("El IBAN está bien formado");
+    contenedor.appendChild(parrafo);
+  }
+};
+
+export const pintarMensajeIbanEsValido = () => {
+  const contenedor = pillaElContenedorPrincipal("contenedor");
+  const valorCampo = obtenerValorCampo("validar");
+  const ibanValido = validateIBAN(valorCampo);
+  if (ibanValido) {
+    const parrafo = crearElementoParrafo("El IBAN es válido");
+    contenedor.appendChild(parrafo);
+  }
+};
+
+export const pintarInformacionBanco = () => {
+  const contenedor = pillaElContenedorPrincipal("contenedor");
+  const valorCampo = obtenerValorCampo("validar");
+  const informacionExtraida = extraerInformacionBanco(valorCampo);
+  const codigoBanco = extraerCodigoDeBanco(valorCampo);
+  const codigoSucursal = crearElementoParrafo(
+    `Código de sucursal: ${informacionExtraida.codigoSucursal}`
+  );
+  const digitoDeControl = crearElementoParrafo(
+    `Digito de control: ${informacionExtraida.digitoDeControl}`
+  );
+  const numeroDeCuenta = crearElementoParrafo(
+    `Número de cuenta: ${informacionExtraida.numeroDeCuenta}`
+  );
+  const nombreDelBanco = crearElementoParrafo(`Banco: ${codigoBanco}`);
+  contenedor.appendChild(nombreDelBanco);
+  contenedor.appendChild(codigoSucursal);
+  contenedor.appendChild(digitoDeControl);
+  contenedor.appendChild(numeroDeCuenta);
+};
+const extraerInformacionBanco = (value: string): InformacionDelPatron => {
   const patron =
     /^ES\d{2}(\s|-)?\d{4}(\s|-)?(?<codigoSucursal>\d{4}(\s|-)?)(?<digitoDeControl>\d{2}(\s|-)?)(?<numeroDeCuenta>\d{10})$/gm;
 
@@ -37,7 +86,7 @@ export const extraerInformacionBanco = (
   }
 };
 
-export const extraerCodigoDeBanco = (value: string): string => {
+const extraerCodigoDeBanco = (value: string): string => {
   const patron =
     /^ES\d{2}(\s|-)?(?<codigoDeBanco>\d{4}(\s|-)?)\d{4}(\s|-)?\d{2}(\s|-)?\d{10}$/gm;
 
@@ -119,7 +168,7 @@ export const extraerCodigoDeBanco = (value: string): string => {
       return "Barclays Bank PLC";
     case "3842":
     case "3842 ":
-    case "0152-":
+    case "3842-":
       return "BNP Paribas Paris";
     case "3025":
     case "3025 ":
