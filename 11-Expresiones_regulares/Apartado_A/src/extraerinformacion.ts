@@ -2,7 +2,7 @@ import { Validador } from "./main.model";
 
 export const extraerDatosIban = (value: string): Validador => {
   const patron =
-    /^(?<codigoPais>ES)(?<digitoControl>\d{2})(\s|-)?(?<codigoBanco>\d{4})(\s|-)?(?<codigoSucursal>\d{4})(\s|-?)\d{2}(\s|-)?(?<numeroDeCuenta>\d{10})$/gm;
+    /^(?<codigoPais>ES)(?<digitoControl>\d{2})(?<codigoBanco>\d{4})(?<codigoSucursal>\d{4})(\s|-?)\d{2}(?<numeroDeCuenta>\d{10})$/gm;
   const coincidencia = patron.exec(value);
   if (coincidencia) {
     const {

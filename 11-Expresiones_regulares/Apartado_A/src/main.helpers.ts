@@ -1,5 +1,4 @@
 import { extraerDatosIban } from "./extraerinformacion";
-import { estaBienFormadoElIban } from "./validacionIban";
 import { isValidIBAN } from "ibantools";
 
 const crearElementoParrafo = (texto: string): HTMLParagraphElement => {
@@ -10,13 +9,13 @@ const crearElementoParrafo = (texto: string): HTMLParagraphElement => {
 
 export const esValidoElIban = (iban: string): boolean => {
   const esValido = isValidIBAN(iban);
-  console.log(esValido);
   return esValido;
 };
 
 export const mostrarDatosIban = (iban: string) => {
-  const esValido = esValidoElIban(iban);
-  esValido ? ibanValido(iban) : ibanNoValido(iban);
+  const transformarIban = iban.replace(/[\s-]/g, "");
+  const esValido = esValidoElIban(transformarIban);
+  esValido ? ibanValido(transformarIban) : ibanNoValido();
 };
 
 const obtenerCodigodelBanco = (codigoBanco: string): string => {
@@ -106,52 +105,46 @@ const obtenerCodigodelBanco = (codigoBanco: string): string => {
 
 const ibanValido = (iban: string) => {
   const contenedor = document.querySelector("#informacion");
-  const ibanBienFormado = estaBienFormadoElIban(iban);
   const datosExtraidosDelIban = extraerDatosIban(iban);
   const codigoBanco = obtenerCodigodelBanco(datosExtraidosDelIban.codigoBanco);
   if (contenedor && contenedor instanceof HTMLDivElement) {
     contenedor.textContent = "";
-    if (ibanBienFormado) {
-      const mensajeIbanEstaBienFormado = crearElementoParrafo(
-        "El IBAN está bien formado"
-      );
-      const mensajeIbanValido = crearElementoParrafo("El IBAN es válido");
-      const digitoControl = crearElementoParrafo(
-        `Digito de control: ${datosExtraidosDelIban.digitoControl}`
-      );
-      const codigoSucursal = crearElementoParrafo(
-        `Código de sucursal: ${datosExtraidosDelIban.codigoSucursal}`
-      );
-      const numeroDeCuenta = crearElementoParrafo(
-        `Número de cuenta: ${datosExtraidosDelIban.numeroDeCuenta}`
-      );
-      const banco = crearElementoParrafo(`Banco: ${codigoBanco}`);
+    const mensajeIbanEstaBienFormado = crearElementoParrafo(
+      "El IBAN está bien formado"
+    );
+    const mensajeIbanValido = crearElementoParrafo("El IBAN es válido");
+    const digitoControl = crearElementoParrafo(
+      `Digito de control: ${datosExtraidosDelIban.digitoControl}`
+    );
+    const codigoSucursal = crearElementoParrafo(
+      `Código de sucursal: ${datosExtraidosDelIban.codigoSucursal}`
+    );
+    const numeroDeCuenta = crearElementoParrafo(
+      `Número de cuenta: ${datosExtraidosDelIban.numeroDeCuenta}`
+    );
+    const banco = crearElementoParrafo(`Banco: ${codigoBanco}`);
 
-      contenedor.appendChild(mensajeIbanEstaBienFormado);
-      contenedor.appendChild(mensajeIbanValido);
-      contenedor.appendChild(banco);
-      contenedor.appendChild(codigoSucursal);
-      contenedor.appendChild(digitoControl);
-      contenedor.appendChild(numeroDeCuenta);
-    }
+    contenedor.appendChild(mensajeIbanEstaBienFormado);
+    contenedor.appendChild(mensajeIbanValido);
+    contenedor.appendChild(banco);
+    contenedor.appendChild(codigoSucursal);
+    contenedor.appendChild(digitoControl);
+    contenedor.appendChild(numeroDeCuenta);
   } else {
     throw new Error("No se ha encontrado el elemento informacion");
   }
 };
 
-const ibanNoValido = (iban: string) => {
+const ibanNoValido = () => {
   const contenedor = document.querySelector("#informacion");
-  const ibanBienFormado = estaBienFormadoElIban(iban);
   if (contenedor && contenedor instanceof HTMLDivElement) {
     contenedor.textContent = "";
-    if (!ibanBienFormado) {
-      const mensajeIbanNoEstaBienFormado = crearElementoParrafo(
-        "El IBAN no está bien formado"
-      );
-      const mensajeIbanNoValido = crearElementoParrafo("El IBAN no es válido");
-      contenedor.appendChild(mensajeIbanNoEstaBienFormado);
-      contenedor.appendChild(mensajeIbanNoValido);
-    }
+    const mensajeIbanNoEstaBienFormado = crearElementoParrafo(
+      "El IBAN no está bien formado"
+    );
+    const mensajeIbanNoValido = crearElementoParrafo("El IBAN no es válido");
+    contenedor.appendChild(mensajeIbanNoEstaBienFormado);
+    contenedor.appendChild(mensajeIbanNoValido);
   } else {
     throw new Error("No se encontrado el elemento informacion");
   }
