@@ -1,5 +1,7 @@
-export interface InformacionDelPatron {
+export interface Validador {
+  codigoPais: string;
+  digitoControl: string;
+  codigoBanco: string;
   codigoSucursal: string;
-  digitoDeControl: string;
   numeroDeCuenta: string;
 }
