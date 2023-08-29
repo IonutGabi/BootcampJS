@@ -43,6 +43,12 @@ const reservaClienteParticular = new ReservaClienteParticular(reservas);
 reservaClienteParticular.calculaSubtotal();
 reservaClienteParticular.calculaIva();
 reservaClienteParticular.calculaTotal();
-console.log(`Subtotal de las reservas: ${reservaClienteParticular.subtotal}`);
-console.log(`Iva de las reservas: ${reservaClienteParticular.totalIva}`);
-console.log(`Total de las reservas: ${reservaClienteParticular.total}`);
+console.log(
+  `Subtotal de las reservas del cliente particular: ${reservaClienteParticular.subtotal}`
+);
+console.log(
+  `IVA de las reservas del cliente particular: ${reservaClienteParticular.totalIva}`
+);
+console.log(
+  `Total de las reservas del cliente particular: ${reservaClienteParticular.total}`
+);
