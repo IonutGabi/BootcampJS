@@ -15,8 +15,10 @@ class ReservaTourOperador extends ReservaClienteParticular {
         return 100;
     }
   }
+
   calculaDescuento(): number {
-    return this.subtotal - (this.descuento * this.subtotal) / 100;
+    return (this.subtotal =
+      this.subtotal - (this.descuento * this.subtotal) / 100);
   }
 }
 
@@ -25,6 +27,7 @@ reservaTourOperador.calculaSubtotal();
 reservaTourOperador.calculaDescuento();
 reservaTourOperador.calculaIva();
 reservaTourOperador.calculaTotal();
+
 console.log(
   `Subtotal de la reservas del tour operador: ${reservaTourOperador.subtotal}`
 );

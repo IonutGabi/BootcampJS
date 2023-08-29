@@ -26,7 +26,7 @@ export class ReservaClienteParticular {
         (this.subtotal =
           acumulador +
           reserva.noches * this.devuelvePrecio(reserva) +
-          (reserva.pax - 1 * 40)),
+          (reserva.pax - 1) * 40),
       0
     );
   }
