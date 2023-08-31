@@ -11,12 +11,14 @@ export class ReservaClienteParticular {
     this.reservas = reservas;
   }
 
-  devuelvePrecio(reservas: Reserva): number {
-    switch (reservas.tipoHabitacion) {
+  devuelvePrecio(tipoHabitacion: string): number {
+    switch (tipoHabitacion) {
       case "standard":
         return 100;
       case "suite":
         return 150;
+      default:
+        return 0;
     }
   }
 
@@ -25,7 +27,7 @@ export class ReservaClienteParticular {
       (acumulador, reserva) =>
         (this.subtotal =
           acumulador +
-          reserva.noches * this.devuelvePrecio(reserva) +
+          reserva.noches * this.devuelvePrecio(reserva.tipoHabitacion) +
           (reserva.pax - 1) * 40),
       0
     );

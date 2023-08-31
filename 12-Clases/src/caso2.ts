@@ -7,12 +7,14 @@ class ReservaTourOperador extends ReservaClienteParticular {
     super(reservas);
   }
 
-  devuelvePrecio(reservas: Reserva): number {
-    switch (reservas.tipoHabitacion) {
+  devuelvePrecio(tipoHabitacion: string): number {
+    switch (tipoHabitacion) {
       case "standard":
         return 100;
       case "suite":
         return 100;
+      default:
+        return 0;
     }
   }
 
@@ -27,6 +29,8 @@ reservaTourOperador.calculaSubtotal();
 reservaTourOperador.calculaDescuento();
 reservaTourOperador.calculaIva();
 reservaTourOperador.calculaTotal();
+
+console.log("-----------------------------------------------");
 
 console.log(
   `Subtotal de la reservas del tour operador: ${reservaTourOperador.subtotal}`
