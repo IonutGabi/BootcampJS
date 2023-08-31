@@ -17,24 +17,38 @@ class ReservaClienteHabitual extends ReservaGenerica {
     super(reservas);
   }
 
-  devuelvePrecio(reservas: ReservaAdicional): number {
-    switch (reservas.tipoHabitacion) {
+  devuelvePrecio(tipoHabitacion: string): number {
+    switch (tipoHabitacion) {
       case "standard":
         return 100;
       case "suite":
         return 150;
+      default:
+        return 0;
     }
   }
 
   calculaSubtotal(): number {
-    return this.reservas.reduce((acumulador, reserva) => {
-      return reserva.desayuno === true
-        ? (this.subtotal =
+    return (
+      this.reservas.reduce(
+        (acumulador, reserva) =>
+          (this.subtotal =
             acumulador +
-            reserva.pax * reserva.noches * 15 * this.devuelvePrecio(reserva) +
-            (reserva.pax - 1) * 40)
-        : (this.subtotal = 0);
-    }, 0);
+            reserva.noches * this.devuelvePrecio(reserva.tipoHabitacion) +
+            (reserva.pax - 1) * 40),
+        0
+      ) + this.calculaPrecioAdicional(this.reservas)
+    );
+  }
+
+  calculaPrecioAdicional(reservas: ReservaAdicional[]): number {
+    return reservas.reduce(
+      (acumulador, reserva) =>
+        (acumulador += reserva.desayuno
+          ? reserva.noches * reserva.pax * 15
+          : 0),
+      0
+    );
   }
   calculaIva(): number {
     return (this.totalIva = (this.IVA * this.subtotal) / 100);
@@ -79,19 +93,27 @@ class ReservaTourOperador extends ReservaGenerica {
   }
 
   calculaSubtotal(): number {
-    return this.reservas.reduce((acumulador, reserva) => {
-      return reserva.desayuno === true
-        ? (this.subtotal =
+    return (
+      this.reservas.reduce(
+        (acumulador, reserva) =>
+          (this.subtotal =
             acumulador +
-            reserva.pax *
-              reserva.noches *
-              15 *
-              this.devuelvePrecio(reserva.tipoHabitacion) +
-            (reserva.pax - 1) * 40)
-        : (this.subtotal = 0);
-    }, 0);
+            reserva.noches * this.devuelvePrecio(reserva.tipoHabitacion) +
+            (reserva.pax - 1) * 40),
+        0
+      ) + this.calculaPrecioAdicional(this.reservas)
+    );
   }
 
+  calculaPrecioAdicional(reservas: ReservaAdicional[]): number {
+    return reservas.reduce(
+      (acumulador, reserva) =>
+        (acumulador += reserva.desayuno
+          ? reserva.noches * reserva.pax * 15
+          : 0),
+      0
+    );
+  }
   calculaDecuento(): number {
     return (this.subtotal =
       this.subtotal - (this.descuento * this.subtotal) / 100);
@@ -101,7 +123,7 @@ class ReservaTourOperador extends ReservaGenerica {
   }
 
   calculaTotal(): number {
-    return (this.total = this.subtotal + this.IVA);
+    return (this.total = this.subtotal + this.totalIva);
   }
 }
 
