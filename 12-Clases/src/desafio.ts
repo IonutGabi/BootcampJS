@@ -23,12 +23,11 @@ class ReservaGenerica {
   }
 
   calculaSubtotal() {
-    this.reservas.reduce(
+    this.subtotal = this.reservas.reduce(
       (acumulador, reserva) =>
-        (this.subtotal =
-          acumulador +
-          reserva.noches * this.devuelvePrecio(reserva.tipoHabitacion) +
-          (reserva.pax - 1) * 40),
+        acumulador +
+        reserva.noches * this.devuelvePrecio(reserva.tipoHabitacion) +
+        (reserva.pax - 1) * 40,
       0
     );
   }
