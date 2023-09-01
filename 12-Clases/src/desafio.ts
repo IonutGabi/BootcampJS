@@ -10,6 +10,36 @@ class ReservaGenerica {
   constructor(reservas: Reserva[]) {
     this.reservas = reservas;
   }
+
+  devuelvePrecio(tipoHabitacion: string): number {
+    switch (tipoHabitacion) {
+      case "standard":
+        return 0;
+      case "suite":
+        return 0;
+      default:
+        return 0;
+    }
+  }
+
+  calculaSubtotal() {
+    this.reservas.reduce(
+      (acumulador, reserva) =>
+        (this.subtotal =
+          acumulador +
+          reserva.noches * this.devuelvePrecio(reserva.tipoHabitacion) +
+          (reserva.pax - 1) * 40),
+      0
+    );
+  }
+
+  calculaIva() {
+    this.totalIva = (this.IVA * this.subtotal) / 100;
+  }
+
+  calculaTotal() {
+    this.total = this.subtotal + this.totalIva;
+  }
 }
 
 class ReservaDelClienteParticular extends ReservaGenerica {
@@ -26,25 +56,6 @@ class ReservaDelClienteParticular extends ReservaGenerica {
       default:
         return 0;
     }
-  }
-
-  calculaSubtotal(): number {
-    return this.reservas.reduce(
-      (acumulador, reserva) =>
-        (this.subtotal =
-          acumulador +
-          reserva.noches * this.devuelvePrecio(reserva.tipoHabitacion) +
-          (reserva.pax - 1) * 40),
-      0
-    );
-  }
-
-  calculaIva(): number {
-    return (this.totalIva = (this.IVA * this.subtotal) / 100);
-  }
-
-  calculaTotal(): number {
-    return (this.total = this.subtotal + this.totalIva);
   }
 }
 
@@ -83,28 +94,8 @@ class ReservaTourOperador extends ReservaGenerica {
     }
   }
 
-  calculaSubtotal(): number {
-    return this.reservas.reduce(
-      (acumulador, reserva) =>
-        (this.subtotal =
-          acumulador +
-          reserva.noches * this.devuelvePrecio(reserva.tipoHabitacion) +
-          (reserva.pax - 1) * 40),
-      0
-    );
-  }
-
-  calculaIva(): number {
-    return (this.totalIva = (this.IVA * this.subtotal) / 100);
-  }
-
-  calculaTotal(): number {
-    return (this.total = this.subtotal + this.totalIva);
-  }
-
-  calculaDescuento(): number {
-    return (this.subtotal =
-      this.subtotal - (this.descuento * this.subtotal) / 100);
+  calculaDescuento() {
+    this.subtotal = this.subtotal - (this.descuento * this.subtotal) / 100;
   }
 }
 
