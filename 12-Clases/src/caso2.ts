@@ -18,9 +18,8 @@ class ReservaTourOperador extends ReservaClienteParticular {
     }
   }
 
-  calculaDescuento(): number {
-    return (this.subtotal =
-      this.subtotal - (this.descuento * this.subtotal) / 100);
+  calculaDescuento() {
+    this.subtotal = this.subtotal - (this.descuento * this.subtotal) / 100;
   }
 }
 

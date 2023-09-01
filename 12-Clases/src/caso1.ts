@@ -22,23 +22,22 @@ export class ReservaClienteParticular {
     }
   }
 
-  calculaSubtotal(): number {
-    return this.reservas.reduce(
+  calculaSubtotal() {
+    this.subtotal = this.reservas.reduce(
       (acumulador, reserva) =>
-        (this.subtotal =
-          acumulador +
-          reserva.noches * this.devuelvePrecio(reserva.tipoHabitacion) +
-          (reserva.pax - 1) * 40),
+        acumulador +
+        reserva.noches * this.devuelvePrecio(reserva.tipoHabitacion) +
+        (reserva.pax - 1) * 40,
       0
     );
   }
 
-  calculaIva(): number {
-    return (this.totalIva = (this.IVA * this.subtotal) / 100);
+  calculaIva() {
+    this.totalIva = (this.IVA * this.subtotal) / 100;
   }
 
-  calculaTotal(): number {
-    return (this.total = this.subtotal + this.totalIva);
+  calculaTotal() {
+    this.total = this.subtotal + this.totalIva;
   }
 }
 const reservaClienteParticular = new ReservaClienteParticular(reservas);
