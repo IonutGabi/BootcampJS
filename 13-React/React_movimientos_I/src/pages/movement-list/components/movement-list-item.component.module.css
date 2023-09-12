@@ -1,0 +1,26 @@
+.row {
+  display: grid;
+  grid-template-columns: 15% 18% 25% 15% 1fr;
+  gap: 1px;
+}
+
+.row:nth-child(odd) {
+  background-color: #eeeeee;
+}
+
+.data-cell {
+  font-size: 16px;
+  padding: 10px;
+  margin: 5px;
+  color: var(--secondary-color);
+  align-self: center;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.red {
+  color: rgb(253, 50, 50);
+  font-weight: 600;
+}

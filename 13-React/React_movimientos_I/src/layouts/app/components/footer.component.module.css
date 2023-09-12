@@ -1,0 +1,11 @@
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5em;
+  margin-top: 100px;
+  background: var(--secondary-color);
+}
+.footer-logo {
+  width: 200px;
+}
