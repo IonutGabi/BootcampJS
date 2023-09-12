@@ -1,6 +1,6 @@
 import React from "react";
 import { AppLayout } from "@/layouts";
-import { MovementVm, AccountVm } from "./movement-list.vm";
+import { MovementVm, AccountVm, createAccountEmpty } from "./movement-list.vm";
 import classes from "./movement-list.page.module.css";
 import { MovementListTableComponent } from "./components";
 import { useParams } from "react-router-dom";
@@ -10,14 +10,16 @@ import {
   mapMovementListFromApiToVm,
 } from "./movement-list.mapper";
 export const MovementListPage: React.FC = () => {
-  const { accountId } = useParams<{ accountId: string }>();
+  const { id } = useParams<{ id: string }>();
   const [movementList, setMovementList] = React.useState<MovementVm[]>([]);
-  const [accountList, setAccountList] = React.useState<AccountVm>();
+  const [accountList, setAccountList] = React.useState<AccountVm>(
+    createAccountEmpty()
+  );
 
   React.useEffect(() => {
-    if (accountId) {
+    if (id) {
       try {
-        getMovements(accountId).then((result) =>
+        getMovements(id).then((result) =>
           setMovementList(mapMovementListFromApiToVm(result))
         );
       } catch (error) {
@@ -27,9 +29,13 @@ export const MovementListPage: React.FC = () => {
   }, []);
 
   React.useEffect(() => {
-    getAccountList().then((result) =>
-      setAccountList(mapAccountListFromApiToVm(result))
-    );
+    try {
+      getAccountList().then((result) =>
+        setAccountList(mapAccountListFromApiToVm(result))
+      );
+    } catch (error) {
+      throw new Error("Error al cargar la información de la cuenta");
+    }
   }, []);
   return (
     <AppLayout>
@@ -38,12 +44,12 @@ export const MovementListPage: React.FC = () => {
           <h1>Saldos y Últimos movimientos</h1>
           <div className={classes.dataContainer}>
             <span>SALDO DISPONIBLE</span>
-            <p>{`${accountList?.balance} €`}</p>
+            <p>{`${accountList.balance} €`}</p>
           </div>
         </div>
         <div className={classes.informationBank}>
-          <span>Alias: {accountList?.name}</span>
-          <span>IBAN: {accountList?.iban}</span>
+          <span>Alias: {accountList.name}</span>
+          <span>IBAN: {accountList.iban}</span>
         </div>
         <MovementListTableComponent movementList={movementList} />
       </div>

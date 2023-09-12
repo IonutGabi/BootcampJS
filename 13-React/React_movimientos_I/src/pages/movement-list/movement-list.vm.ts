@@ -15,3 +15,11 @@ export interface AccountVm {
   balance: string;
   lastTransaction: Date;
 }
+
+export const createAccountEmpty = (): AccountVm => ({
+  id: "",
+  iban: "",
+  name: "",
+  balance: "",
+  lastTransaction: new Date(""),
+});
