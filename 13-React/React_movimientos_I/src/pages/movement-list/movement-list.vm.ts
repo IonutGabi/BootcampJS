@@ -21,5 +21,5 @@ export const createAccountEmpty = (): AccountVm => ({
   iban: "",
   name: "",
   balance: "",
-  lastTransaction: new Date(""),
+  lastTransaction: new Date(),
 });

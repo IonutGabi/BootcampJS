@@ -9,10 +9,13 @@ import {
   mapAccountListFromApiToVm,
   mapMovementListFromApiToVm,
 } from "./movement-list.mapper";
+
 export const MovementListPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+
   const [movementList, setMovementList] = React.useState<MovementVm[]>([]);
-  const [accountList, setAccountList] = React.useState<AccountVm>(
+
+  const [account, setAccountList] = React.useState<AccountVm>(
     createAccountEmpty()
   );
 
@@ -27,16 +30,18 @@ export const MovementListPage: React.FC = () => {
       }
     }
   }, []);
-
   React.useEffect(() => {
-    try {
-      getAccountList().then((result) =>
-        setAccountList(mapAccountListFromApiToVm(result))
-      );
-    } catch (error) {
-      throw new Error("Error al cargar la información de la cuenta");
+    if (id) {
+      try {
+        getAccountList(id).then((accountResult) =>
+          setAccountList(mapAccountListFromApiToVm(accountResult))
+        );
+      } catch (error) {
+        throw new Error("Error al cargar la información de la cuenta");
+      }
     }
   }, []);
+
   return (
     <AppLayout>
       <div className={classes.root}>
@@ -44,12 +49,12 @@ export const MovementListPage: React.FC = () => {
           <h1>Saldos y Últimos movimientos</h1>
           <div className={classes.dataContainer}>
             <span>SALDO DISPONIBLE</span>
-            <p>{`${accountList.balance} €`}</p>
+            <p>{`${account.balance} €`}</p>
           </div>
         </div>
         <div className={classes.informationBank}>
-          <span>Alias: {accountList.name}</span>
-          <span>IBAN: {accountList.iban}</span>
+          <span>Alias: {account.name}</span>
+          <span>IBAN: {account.iban}</span>
         </div>
         <MovementListTableComponent movementList={movementList} />
       </div>

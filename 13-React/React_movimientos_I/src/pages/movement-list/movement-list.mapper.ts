@@ -7,8 +7,8 @@ export const mapMovementListFromApiToVm = (
   movementList.map((movement) => ({
     id: movement.id,
     description: movement.description,
-    balance: movement.balance.toString(),
-    amount: movement.amount.toString(),
+    balance: `${movement.balance}`,
+    amount: `${movement.amount}`,
     transaction: new Date(movement.transaction),
     realTransaction: new Date(movement.realTransaction),
     accountId: movement.accountId,
@@ -20,6 +20,6 @@ export const mapAccountListFromApiToVm = (
   id: accountList.id,
   iban: accountList.iban,
   name: accountList.name,
-  balance: accountList.balance.toString(),
+  balance: `${accountList.balance}`,
   lastTransaction: new Date(accountList.lastTransaction),
 });

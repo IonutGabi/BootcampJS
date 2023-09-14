@@ -10,5 +10,7 @@ export const getMovements = (accountId: string): Promise<MovementApiModel[]> =>
     ({ data }) => data
   );
 
-export const getAccountList = (): Promise<AccountApiModel> =>
-  Axios.get<AccountApiModel>(urlAccountList).then((response) => response.data);
+export const getAccountList = (id: string): Promise<AccountApiModel> =>
+  Axios.get<AccountApiModel>(urlAccountList, { params: { id } }).then(
+    ({ data }) => data
+  );
