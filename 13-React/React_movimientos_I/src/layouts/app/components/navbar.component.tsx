@@ -22,11 +22,7 @@ export const NavBarComponent: React.FC = () => {
               ? { display: "block" }
               : { display: "none" }
           }
-          className={
-            pathname.startsWith(routesPrefixes.movements)
-              ? classes.selected
-              : ""
-          }
+          className={classes.selected}
         >
           <Link to={appRoutes.movements}>Movimientos</Link>
         </li>
