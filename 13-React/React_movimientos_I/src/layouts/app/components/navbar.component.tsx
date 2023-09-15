@@ -17,6 +17,11 @@ export const NavBarComponent: React.FC = () => {
           <Link to={appRoutes.accountList}>Mis Cuentas</Link>
         </li>
         <li
+          style={
+            pathname.startsWith(routesPrefixes.movements)
+              ? { display: "block" }
+              : { display: "none" }
+          }
           className={
             pathname.startsWith(routesPrefixes.movements)
               ? classes.selected
