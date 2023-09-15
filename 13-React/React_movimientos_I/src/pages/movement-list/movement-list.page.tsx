@@ -34,7 +34,7 @@ export const MovementListPage: React.FC = () => {
     if (id) {
       try {
         getAccountList(id).then((accountResult) =>
-          setAccountList(mapAccountListFromApiToVm(accountResult))
+          setAccountList(mapAccountListFromApiToVm(accountResult[0]))
         );
       } catch (error) {
         throw new Error("Error al cargar la información de la cuenta");
