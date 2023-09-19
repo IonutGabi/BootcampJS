@@ -108,5 +108,39 @@
       "accountId": "3"
     }
   ],
-  "transfer": []
+  "transfer": [
+    {
+      "accountId": "1",
+      "iban": "DE91100000000123456789",
+      "name": "Curry",
+      "amount": "200",
+      "concept": "Compra del mes",
+      "notes": "",
+      "transferDate": "Mon Sep 18 2023",
+      "realTransferDate": "",
+      "id": 1
+    },
+    {
+      "accountId": "3",
+      "iban": "ES9121000418450200051332",
+      "name": "Jorge",
+      "amount": "20",
+      "concept": "test",
+      "notes": "test2",
+      "transferDate": "Mon Sep 18 2023",
+      "realTransferDate": "",
+      "id": 2
+    },
+    {
+      "accountId": "3",
+      "iban": "ES9121000418450200051332",
+      "name": "Jose",
+      "amount": "20",
+      "concept": "hola",
+      "notes": "observo",
+      "transferDate": "Mon Sep 18 2023",
+      "realTransferDate": "",
+      "id": 3
+    }
+  ]
 }
