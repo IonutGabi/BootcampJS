@@ -1,0 +1,44 @@
+.root {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 5px;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 5px solid var(--secondary-color);
+  margin-bottom: 5px;
+}
+
+.header-container h1 {
+  font-size: 2.2rem;
+  font-weight: 300;
+}
+
+.data-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-weight: 800;
+}
+
+.data-container span {
+  font-size: 12px;
+}
+
+.data-container p {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+  color: var(--primary-color);
+}
+
+.information-bank {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  margin-bottom: 15px;
+}

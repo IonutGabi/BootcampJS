@@ -1,0 +1,22 @@
+.navbar {
+  background: var(--secondary-color);
+  margin-bottom: 25px;
+}
+
+.list {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 10px;
+  align-items: center;
+}
+
+.list a {
+  color: #fff;
+  text-decoration: none;
+}
+.selected {
+  border-bottom: 5px solid var(--primary-color);
+  padding-bottom: 5px;
+  margin-bottom: -10px;
+}
