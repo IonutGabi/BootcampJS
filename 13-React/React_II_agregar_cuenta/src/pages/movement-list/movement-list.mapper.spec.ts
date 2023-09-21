@@ -51,8 +51,8 @@ describe("pages/movement-list/api/movement-list.mapper tests", () => {
           description: "Nómina noviembre",
           amount: "900",
           balance: "1490",
-          transaction: new Date("2019-12-09T21:30:00"),
-          realTransaction: new Date("2019-12-09T21:30:00"),
+          transaction: new Date("2019-12-09T21:30:00").toLocaleDateString(),
+          realTransaction: new Date("2019-12-09T21:30:00").toLocaleDateString(),
           accountId: "1",
         },
 
@@ -61,8 +61,8 @@ describe("pages/movement-list/api/movement-list.mapper tests", () => {
           description: "Alquiler noviembre",
           amount: "-400",
           balance: "590",
-          transaction: new Date("2019-12-07T11:30:00"),
-          realTransaction: new Date("2019-12-07T11:30:00"),
+          transaction: new Date("2019-12-07T11:30:00").toLocaleDateString(),
+          realTransaction: new Date("2019-12-07T11:30:00").toLocaleDateString(),
           accountId: "1",
         },
       ]);
@@ -88,7 +88,7 @@ describe("pages/movement-list/api/movement-list.mapper tests", () => {
         iban: "",
         name: "",
         balance: "0",
-        lastTransaction: new Date(""),
+        lastTransaction: new Date("").toLocaleDateString(),
       });
     });
 
@@ -113,7 +113,7 @@ describe("pages/movement-list/api/movement-list.mapper tests", () => {
         iban: "ES91 2100 0418 4502 0005 1332",
         name: "Gastos mes",
         balance: "1490",
-        lastTransaction: new Date("2019-12-09T21:30:00"),
+        lastTransaction: new Date("2019-12-09T21:30:00").toLocaleDateString(),
       });
     });
   });
