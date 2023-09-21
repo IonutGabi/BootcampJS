@@ -3,8 +3,8 @@ export interface MovementVm {
   description: string;
   amount: string;
   balance: string;
-  realTransaction: Date;
-  transaction: Date;
+  realTransaction: string;
+  transaction: string;
   accountId: string;
 }
 
@@ -13,7 +13,7 @@ export interface AccountVm {
   iban: string;
   name: string;
   balance: string;
-  lastTransaction: Date;
+  lastTransaction: string;
 }
 
 export const createAccountEmpty = (): AccountVm => ({
@@ -21,5 +21,5 @@ export const createAccountEmpty = (): AccountVm => ({
   iban: "",
   name: "",
   balance: "",
-  lastTransaction: new Date(),
+  lastTransaction: "",
 });
