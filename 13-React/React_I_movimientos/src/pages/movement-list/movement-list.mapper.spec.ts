@@ -1,7 +1,7 @@
 import * as apiModel from "./api";
 import {
   mapMovementListFromApiToVm,
-  mapAccountListFromApiToVm,
+  mapAccountFromApiToVm,
 } from "./movement-list.mapper";
 
 describe("pages/movement-list/api/movement-list.mapper tests", () => {
@@ -81,7 +81,7 @@ describe("pages/movement-list/api/movement-list.mapper tests", () => {
         lastTransaction: "",
       };
       // Act
-      const result = mapAccountListFromApiToVm(accountList);
+      const result = mapAccountFromApiToVm(accountList);
       // Assert
       expect(result).toEqual({
         id: "",
@@ -104,7 +104,7 @@ describe("pages/movement-list/api/movement-list.mapper tests", () => {
       };
       // Act
 
-      const result = mapAccountListFromApiToVm(accountList);
+      const result = mapAccountFromApiToVm(accountList);
 
       // Assert
 

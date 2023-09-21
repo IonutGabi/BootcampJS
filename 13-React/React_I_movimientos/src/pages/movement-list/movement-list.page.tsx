@@ -4,9 +4,9 @@ import { MovementVm, AccountVm, createAccountEmpty } from "./movement-list.vm";
 import classes from "./movement-list.page.module.css";
 import { MovementListTableComponent } from "./components";
 import { useParams } from "react-router-dom";
-import { getAccountList, getMovements } from "./api";
+import { getAccount, getMovements } from "./api";
 import {
-  mapAccountListFromApiToVm,
+  mapAccountFromApiToVm,
   mapMovementListFromApiToVm,
 } from "./movement-list.mapper";
 
@@ -15,30 +15,18 @@ export const MovementListPage: React.FC = () => {
 
   const [movementList, setMovementList] = React.useState<MovementVm[]>([]);
 
-  const [account, setAccountList] = React.useState<AccountVm>(
-    createAccountEmpty()
-  );
+  const [account, setAccount] = React.useState<AccountVm>(createAccountEmpty());
+
+  const loadData = (id: string): void => {
+    Promise.all([getMovements(id), getAccount(id)]).then((result) => {
+      setMovementList(mapMovementListFromApiToVm(result[0]));
+      setAccount(mapAccountFromApiToVm(result[1]));
+    });
+  };
 
   React.useEffect(() => {
     if (id) {
-      try {
-        getMovements(id).then((result) =>
-          setMovementList(mapMovementListFromApiToVm(result))
-        );
-      } catch (error) {
-        throw new Error("Error al cargar los movimientos de la cuenta");
-      }
-    }
-  }, []);
-  React.useEffect(() => {
-    if (id) {
-      try {
-        getAccountList(id).then((accountResult) =>
-          setAccountList(mapAccountListFromApiToVm(accountResult[0]))
-        );
-      } catch (error) {
-        throw new Error("Error al cargar la información de la cuenta");
-      }
+      loadData(id);
     }
   }, []);
 

@@ -9,17 +9,17 @@ export const mapMovementListFromApiToVm = (
     description: movement.description,
     balance: `${movement.balance}`,
     amount: `${movement.amount}`,
-    transaction: new Date(movement.transaction),
-    realTransaction: new Date(movement.realTransaction),
+    transaction: new Date(movement.transaction).toLocaleDateString(),
+    realTransaction: new Date(movement.realTransaction).toLocaleDateString(),
     accountId: movement.accountId,
   }));
 
-export const mapAccountListFromApiToVm = (
+export const mapAccountFromApiToVm = (
   accountList: apiModel.AccountApiModel
 ): ViewModel.AccountVm => ({
   id: accountList.id,
   iban: accountList.iban,
   name: accountList.name,
   balance: `${accountList.balance}`,
-  lastTransaction: new Date(accountList.lastTransaction),
+  lastTransaction: new Date(accountList.lastTransaction).toLocaleDateString(),
 });
